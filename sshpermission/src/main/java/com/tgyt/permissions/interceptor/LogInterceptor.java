@@ -1,7 +1,7 @@
 /**   
   * @Title: LogInterceptor.java 
   * @Package com.tgyt.permissions.interceptor 
-  * @Description: 北京太谷雨田信息科技有限责任公司 版本所有
+  * @Description: 
   * @author ligangying ligangying1987@163.com 
   * @date 2011-9-28 下午5:53:41 
   * @version V1.0   

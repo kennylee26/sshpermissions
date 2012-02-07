@@ -1,7 +1,7 @@
 /**   
   * @Title: ResourcesTg.java 
   * @Package com.tgyt.permissions.controls 
-  * @Description: 北京太谷雨田信息科技有限责任公司 版本所有
+  * @Description: 
   * @author sunct sunchaotong18@163.com 
   * @date 2011-9-20 下午1:52:27 
   * @version V1.0   

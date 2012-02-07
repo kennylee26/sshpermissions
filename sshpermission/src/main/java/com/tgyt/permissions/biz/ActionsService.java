@@ -1,7 +1,7 @@
 /**   
   * @Title: ActionsService.java 
   * @Package com.tgyt.permissions.biz 
-  * @Description: 北京太谷雨田信息科技有限责任公司 版本所有
+  * @Description: 
   * @author sunct sunchaotong18@163.com 
   * @date 2011-9-19 下午2:54:00 
   * @version V1.0   

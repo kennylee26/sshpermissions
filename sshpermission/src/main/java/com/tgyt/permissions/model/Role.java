@@ -1,7 +1,7 @@
 /**   
   * @Title: Role.java 
   * @Package com.tgyt.permissions.model 
-  * @Description: 北京太谷雨田信息科技有限责任公司 版本所有
+  * @Description: 
   * @author WangMing wang1988ming@qq.com 
   * @date 2011-9-23 下午1:42:08 
   * @version V1.0   

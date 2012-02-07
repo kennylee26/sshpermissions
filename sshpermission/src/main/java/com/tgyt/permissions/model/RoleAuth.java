@@ -1,7 +1,7 @@
 /**   
   * @Title: RoleAuth.java 
   * @Package com.tgyt.permissions.model 
-  * @Description: 北京太谷雨田信息科技有限责任公司 版本所有
+  * @Description: 
   * @author sunct sunchaotong18@163.com 
   * @date 2011-9-30 上午10:30:29 
   * @version V1.0   
