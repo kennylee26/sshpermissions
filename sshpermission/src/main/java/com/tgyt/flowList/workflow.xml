@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- 全局参数管理 -->
+	<package name="flowtype" namespace="/workflow/flowtype" extends="struts-default">
+		<!--用户管理-->
+		<action name="*CFlowTypeTg" method="{1}" class="flowTypeControl">
+			<result name="success">/views/workflow/flowtype/flowtype.jsp</result>
+		</action>
+	</package>
+</struts>
