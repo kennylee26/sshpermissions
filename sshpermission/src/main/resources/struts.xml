@@ -7,4 +7,5 @@
 	<!-- permissions manager -->
 	<include file="com/tgyt/permissions/permissions.xml"/>
 	<include file="com/tgyt/tgbpm/tgbpm.xml"/>
+	<include file="com/tgyt/flowList/workflow.xml"/>
 </struts>
