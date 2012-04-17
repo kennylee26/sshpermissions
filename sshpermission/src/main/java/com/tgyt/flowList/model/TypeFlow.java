@@ -10,6 +10,13 @@ import javax.persistence.Table;
 /**
  * TypeFlow entity. @author MyEclipse Persistence Tools
  */
+/** 
+  * @ClassName: TypeFlow 
+  * @Description: 工作流与类型中间表
+  * @author haoly  454688562@qq.com
+  * @date 2012-4-17 上午10:44:25 
+  *  
+  */
 @Entity
 @Table(name = "type_flow", catalog = "tgpermission")
 public class TypeFlow implements java.io.Serializable {

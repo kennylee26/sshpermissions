@@ -66,13 +66,15 @@ public class CFlowTypeTg extends BaseTg {
 		this.flowType = flowType;
 	}
 
-	public void add(){
-		flowType=new CFlowtype();
-		flowType.setTypename("测3试");
-//		flowType.setParentid(1);
-		this.flowTypeService.save(flowType);
-	}
 
+
+	/** 
+	  * @Title: getTree 
+	  * @Description: 获得流程类型树
+	  * @param     设定文件 
+	  * @return void    返回类型 
+	  * @throws 
+	  */
 	public void getTree() {
 		List tree = this.flowTypeService.getTree();
 		JSONArray jsonArray = JSONArray.fromObject(tree);

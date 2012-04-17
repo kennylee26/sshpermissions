@@ -10,6 +10,13 @@ import javax.persistence.Table;
 /**
  * CFlowtype entity. @author MyEclipse Persistence Tools
  */
+/** 
+  * @ClassName: CFlowtype 
+  * @Description: 工作流类型实体类
+  * @author haoly  454688562@qq.com
+  * @date 2012-4-17 上午10:41:03 
+  *  
+  */
 @Entity
 @Table(name = "c_flowtype", catalog = "tgpermission")
 public class CFlowtype implements java.io.Serializable {
