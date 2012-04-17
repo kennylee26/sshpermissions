@@ -56,6 +56,6 @@ public interface IUserService extends ServiceInterface<Users> {
 	  */
 	public Boolean saveToGroup(String groupId,Users user);
 	public Users login(String userName,String password);
-	
+	public List<Users> findByLoginIds(String ids);
 	public String returnRoleName(String userId);
 }

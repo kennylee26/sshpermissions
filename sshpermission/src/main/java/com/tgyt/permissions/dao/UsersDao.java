@@ -193,4 +193,14 @@ public class UsersDao extends BaseDAO<Users> {
 		
 		return false;
 	}
+	public List<Users> findByLoginIds(String ids){
+		String[] strs=ids.split(",");
+		List<Users> list=new ArrayList<Users>();
+		for(int i=0;i<strs.length;i++){
+			Users user=new Users();
+			user=(Users) this.getHandler().findObj("from Users where logonid ='" + strs[i] + "'");
+			list.add(user);
+		}
+		return list;
+	}
 }

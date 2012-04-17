@@ -58,7 +58,9 @@ public class UserService extends BaseService<Users> implements IUserService {
 	public boolean alterToGroup(Users user, String groupId) {
 		return this.userDao.alterToGroup(user,groupId);
 	}
-
+	public List<Users> findByLoginIds(String ids){
+		return this.userDao.findByLoginIds(ids);
+	}
 	
 
 }

@@ -73,6 +73,15 @@ public class UserTg extends BaseTg{
 	  */ 
 	private String groupId;
 	private String groupName;
+	private String loginids;
+
+	public String getLoginids() {
+		return loginids;
+	}
+
+	public void setLoginids(String loginids) {
+		this.loginids = loginids;
+	}
 	/** 
 	  * @Fields backgroundImage : 修改背景图片时的图片名 
 	  */ 
@@ -177,6 +186,7 @@ public class UserTg extends BaseTg{
 	  * @throws 
 	  */
 	public void getPage(){
+		System.out.println("&&&&&&&&&&&&&&777");
 		Pagination p =  this.userService.getPageList(user, page, rows,sort,order);
 		
 		List<Users> list = p.getList();
@@ -307,6 +317,22 @@ public class UserTg extends BaseTg{
 		JSONArray json = JSONArray.fromObject(doList(list));
 		String baseStr = "{\"total\":" + list.size() + ",\"rows\":";
 		baseStr = baseStr + json.toString() + "}";
+		returnJsion(baseStr,response);
+	}
+	
+	
+	public void findByLoginIds(){
+		
+		String baseStr ="";
+		if(loginids!=null&&!"".equals(loginids)){
+			List<Users> list = this.userService.findByLoginIds(loginids);
+			List lists = doOther(list);	
+			JSONArray jsonArray = JSONArray.fromObject(lists);
+			if(jsonArray!=null){
+				baseStr=jsonArray.toString();
+			}
+			returnJsion(baseStr,response);
+		}
 		returnJsion(baseStr,response);
 	}
 	
