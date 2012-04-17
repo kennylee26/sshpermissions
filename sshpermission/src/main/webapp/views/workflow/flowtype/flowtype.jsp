@@ -148,16 +148,23 @@
 				});
 			}
 		}
+		var i=0;
 		function createFlow(){
 			var node = $('#mytree').tree('getSelected');
-			//alert(node);
 			if(node){
-				//alert("123");
-			$('#dlgflow').dialog('open').dialog('setTitle', '新建流程');
+				//只有当第二次新建流程时才调用初始化工作流函数
+				if(i>0){
+					var swf = window.document.getElementById("tgWorkFlow").contentWindow.findSWF("tgWorkFlow");
+					swf.initFlow();
+				}
+				i++;
+				$('#dlgflow').dialog('open').dialog('setTitle', '新建流程');
 			}else{
 				alert("请选择类型");
 			}
 		}
+		
+
 	</script>
 </head>
 <body style="margin:0;padding:0;height:100%;overflow:hidden;background:#F2FBFF">
@@ -221,7 +228,7 @@
 			class="easyui-dialog"
 			title="添加" closed="true" modal="true">
         <form id="myforms" method="post">
-        <iframe src="../designer/tgWorkFlow.jsp" frameBorder=0 style="width:100%;height:500px">
+        <iframe id="tgWorkFlow" src="../designer/tgWorkFlow.jsp" frameBorder=0 style="width:100%;height:500px">
         </iframe>
 		</form>
 	</div>
