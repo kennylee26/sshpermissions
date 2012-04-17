@@ -150,12 +150,12 @@
 		}
 		function createFlow(){
 			var node = $('#mytree').tree('getSelected');
-			alert(node);
+			//alert(node);
 			if(node){
-				alert("123");
+				//alert("123");
 			$('#dlgflow').dialog('open').dialog('setTitle', '新建流程');
 			}else{
-				
+				alert("请选择类型");
 			}
 		}
 	</script>
