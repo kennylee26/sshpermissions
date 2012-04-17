@@ -217,11 +217,11 @@
 		</div>
 	</div>
 	
-   <div id="dlgflow" style="width:1080px;height:720px"
+   <div id="dlgflow" style="width:820px;height:540px"
 			class="easyui-dialog"
 			title="添加" closed="true" modal="true">
-        <form id="myforms" method="post" >
-        <iframe src="../designer/tgWorkFlow.jsp" frameBorder=0 width="100%" height="100%">
+        <form id="myforms" method="post">
+        <iframe src="../designer/tgWorkFlow.jsp" frameBorder=0 style="width:100%;height:500px">
         </iframe>
 		</form>
 	</div>
