@@ -101,4 +101,10 @@
 	</aop:config>
 	<bean id="LogInterceptor" class="com.tgyt.permissions.interceptor.LogInterceptor"></bean>
 
+<!--jbpm4.4工作流  -->   
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper">   
+	        <property name="jbpmCfg" value="spring-jbpm4.cfg.xml" />
+	            
+	</bean>   
+	<bean id="processEngine" factory-bean="springHelper"  factory-method="createProcessEngine" /> 
 </beans>
