@@ -1,23 +1,18 @@
 package com.tgyt.flowList.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  * TypeFlow entity. @author MyEclipse Persistence Tools
  */
-/** 
-  * @ClassName: TypeFlow 
-  * @Description: 工作流与类型中间表
-  * @author haoly  454688562@qq.com
-  * @date 2012-4-17 上午10:44:25 
-  *  
-  */
 @Entity
 @Table(name = "type_flow", catalog = "tgpermission")
 public class TypeFlow implements java.io.Serializable {
@@ -25,8 +20,11 @@ public class TypeFlow implements java.io.Serializable {
 	// Fields
 
 	private Integer id;
+	private Integer version;
 	private Integer typeid;
 	private Integer flowid;
+	private String flowname;
+	private String flowdescribe;
 
 	// Constructors
 
@@ -35,9 +33,12 @@ public class TypeFlow implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public TypeFlow(Integer typeid, Integer flowid) {
+	public TypeFlow(Integer typeid, Integer flowid, String flowname,
+			String flowdescribe) {
 		this.typeid = typeid;
 		this.flowid = flowid;
+		this.flowname = flowname;
+		this.flowdescribe = flowdescribe;
 	}
 
 	// Property accessors
@@ -50,6 +51,16 @@ public class TypeFlow implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Version
+	@Column(name = "version")
+	public Integer getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	@Column(name = "typeid")
@@ -68,6 +79,24 @@ public class TypeFlow implements java.io.Serializable {
 
 	public void setFlowid(Integer flowid) {
 		this.flowid = flowid;
+	}
+
+	@Column(name = "flowname", length = 100)
+	public String getFlowname() {
+		return this.flowname;
+	}
+
+	public void setFlowname(String flowname) {
+		this.flowname = flowname;
+	}
+
+	@Column(name = "flowdescribe", length = 400)
+	public String getFlowdescribe() {
+		return this.flowdescribe;
+	}
+
+	public void setFlowdescribe(String flowdescribe) {
+		this.flowdescribe = flowdescribe;
 	}
 
 }
