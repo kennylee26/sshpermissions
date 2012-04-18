@@ -24,7 +24,12 @@
 		function init(){
 			$('#mytree').tree({
 				onClick: function(node){
-					$(this).tree('collapseAll', node.target);
+					//$('#t-resources').datagrid('reload', {"id":node.id});
+					var queryParams = $('#dt-resources').datagrid('options').queryParams;
+					queryParams.treeId=node.id;
+					
+					$('#dt-resources').datagrid('loadData', {total:0,rows:[]});
+					$('#dt-resources').datagrid("reload");
 				},
 				onContextMenu: function(e, node){
 					e.preventDefault();
@@ -163,8 +168,16 @@
 				alert("请选择类型");
 			}
 		}
-		
-
+		function formatTypeResult(){
+			var c = '<a href="#" onclick="showFlow()">查看</a><a href="#" onclick="flag()">标识</a>';
+			return c;
+			}
+        function showFlow(){
+        	
+        }
+        function flag(){
+        	
+        }
 	</script>
 </head>
 <body style="margin:0;padding:0;height:100%;overflow:hidden;background:#F2FBFF">
@@ -182,21 +195,18 @@
 		</div>
 		<div region="center" border="false">
 				<table id="dt-resources" class="easyui-datagrid"
-						fit="true" border="false" 
+						fit="true" border="false"
+						url="<c:url value='/listflow/getFlowItemsTypeFlowTg.tg'/>" 
 						pagination="true" 
 						singleSelect="true" rownumbers="true" disabled="true" >
 					<thead>
 						<tr>
-							<th field="name" align="center"  width="100"  sorta ble="true">资源名称</th>
-							<th field="enname" align="center"  width="100" sortable="true">英文名称</th>
-							<th field="parentName" align="center"  width="100" >上级资源</th>
-							<th field="systemName" align="center"  width="150" sortable="true">系统名称</th>
-							<th field="resourcetype" align="center"  width="100" sortable="true">资源类型</th>
-							<th field="link" align="center"  width="100" sortable="true">链接</th>
-							<th field="icon" align="center"  width="100" sortable="true">图标</th>
-
-							<th field="orderid" align="center"  width="50" sortable="true">排序</th>
-							<th field="memo"  align="center" width="250">备注</th>
+							<th field="id" align="center"  width="100"  sorta ble="true">序号</th>
+							<th field="flowname" align="center"  width="100" sortable="true">流程名称</th>
+							<th field="flowdescribe" align="center"  width="100" >流程描述</th>
+							<th field="version" align="center"  width="150" sortable="true">流程版本</th>
+							<th field="flag"  align="center" width="250">备注</th>
+							<th field="memo"  align="center" width="250" formatter="formatTypeResult">操作</th>
 						</tr>
 					</thead>
 				</table> 

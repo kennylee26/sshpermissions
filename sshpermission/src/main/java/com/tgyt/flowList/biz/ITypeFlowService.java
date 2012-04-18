@@ -1,5 +1,8 @@
 package com.tgyt.flowList.biz;
 
+import java.util.List;
+
+import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.flowList.model.TypeFlow;
 import com.tgyt.framework.service.ServiceInterface;
 
@@ -11,5 +14,14 @@ import com.tgyt.framework.service.ServiceInterface;
   *  
   */
 public interface ITypeFlowService extends ServiceInterface<TypeFlow> {
+	
+	static final String OPEN_STATE="启用";
+	static final String CLOSE_STATE="禁用";
 
+	public Pagination getFlowList(TypeFlow typeFlow, Integer page, Integer rows,
+			String sort, String order, Object object);
+	
+	public void getNode(int id);
+
+	public List getFlowList(TypeFlow typeFlow, int id);
 }

@@ -72,6 +72,8 @@ public class CFlowTypeService extends BaseService<CFlowtype> implements
 		}
 		return nodes;
 	}
-	
+//	public void deleteSubType(int id){
+//		
+//	}
 
 }

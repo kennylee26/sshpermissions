@@ -4,10 +4,15 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-<!-- 全局参数管理 -->
+<!-- 类型管理-->
 	<package name="flowtype" namespace="/workflow/flowtype" extends="struts-default">
-		<!--用户管理-->
 		<action name="*CFlowTypeTg" method="{1}" class="flowTypeControl">
+			<result name="success">/views/workflow/flowtype/flowtype.jsp</result>
+		</action>
+	</package>
+	<!-- 工作流中间表-->
+	<package name="flow" namespace="/listflow" extends="struts-default">
+		<action name="*TypeFlowTg" method="{1}" class="listControl">
 			<result name="success">/views/workflow/flowtype/flowtype.jsp</result>
 		</action>
 	</package>
