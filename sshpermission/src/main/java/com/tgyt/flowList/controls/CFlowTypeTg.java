@@ -160,4 +160,54 @@ public class CFlowTypeTg extends BaseTg {
 			}
 		}
 	}
+	/**
+	  * @Title: dnd 
+	  * @Description: 执行拖拽 
+	  * @param 
+	  * @return void
+	  * @throws
+	 */
+	public void dnd(){
+		CFlowtype CFlowtype = this.flowTypeService.findById(id);
+		if (point.equals("append")){
+			Integer sort =  this.flowTypeService.getMaxSort();
+			if (sort == null){
+				sort = 0;
+			}
+			CFlowtype.setParentid(Integer.parseInt(targetId));
+			CFlowtype.setList(++sort);
+			this.flowTypeService.save(CFlowtype);
+		} else {
+			CFlowtype target = this.flowTypeService.findById(targetId);
+			CFlowtype.setParentid(target.getParentid());
+			if (point.equals("top")){
+				this.flowTypeService.executeSql("update CFlowtype set questionTypeList=questionTypeList+1 where questionTypeParentId="+target.getParentid()+" and questionTypeList>="+target.getList());
+				CFlowtype.setList(target.getList());
+			} else {
+				this.flowTypeService.executeSql("update CFlowtype set questionTypeList=questionTypeList+1 where productParentId="+target.getParentid()+" and questionTypeList>"+target.getList());
+				CFlowtype.setList(target.getList() + 1);
+			}
+		}
+		this.flowTypeService.save(CFlowtype);
+		outJsonPlainString(response,"{\"success\":true}");
+	}
+	private String point;
+	private String targetId;
+
+
+	public String getPoint() {
+		return point;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
+
+	public String getTargetId() {
+		return targetId;
+	}
+
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
+	}
 }

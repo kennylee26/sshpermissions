@@ -42,7 +42,7 @@
 				onDrop: function(target, source, point){
 					var targetId = $('#mytree').tree('getNode', target).id;
 					$.ajax({
-						url: '<c:url value="/callcenter/question/dndQuestion.tg"/>?id=' + source.id,
+						url: '<c:url value="/workflow/flowtype/dndCFlowTypeTg.tg"/>?id=' + source.id,
 						data: {
 							targetId: targetId,
 							point: point

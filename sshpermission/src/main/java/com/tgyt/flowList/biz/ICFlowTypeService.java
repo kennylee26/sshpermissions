@@ -23,4 +23,6 @@ public interface ICFlowTypeService extends ServiceInterface<CFlowtype> {
 	  * @throws 
 	  */
 	public List<Map<String,Object>> getTree();
+	public int getMaxSort();
+	public Boolean deleteType(int id);
 }

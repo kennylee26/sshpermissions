@@ -2,6 +2,7 @@ package com.tgyt.flowList.biz;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tgyt.flowList.dao.CFlowTypeDao;
+import com.tgyt.flowList.dao.TypeFlowDao;
 import com.tgyt.flowList.model.CFlowtype;
+import com.tgyt.flowList.model.TypeFlow;
 import com.tgyt.framework.dao.hspring.DAOInterface;
 import com.tgyt.framework.service.BaseService;
 @Service
@@ -19,7 +22,9 @@ import com.tgyt.framework.service.BaseService;
 public class CFlowTypeService extends BaseService<CFlowtype> implements
 		ICFlowTypeService {
 	
-	@Resource(name="flowTypeDao")
+    @Resource(name="typeFlowDao")
+	private TypeFlowDao typeFlowDao;
+    @Resource(name="flowTypeDao")
 	private CFlowTypeDao flowTypeDao;
 
 	@Override
@@ -27,7 +32,7 @@ public class CFlowTypeService extends BaseService<CFlowtype> implements
 		// TODO Auto-generated method stub
 		return this.flowTypeDao;
 	}
-
+    private ArrayList<Integer> idList=new ArrayList<Integer>();
 	@Override
 	
 	public List<Map<String, Object>> getTree() {
@@ -75,5 +80,32 @@ public class CFlowTypeService extends BaseService<CFlowtype> implements
 //	public void deleteSubType(int id){
 //		
 //	}
-
+	public int getMaxSort() {
+		return flowTypeDao.getMaxSort();
+	}
+	public Boolean deleteType(int id){
+		Boolean flag=false;
+			idList.add(id);
+			this.getNode(id);
+			Iterator<Integer> item=idList.iterator();
+			while(item.hasNext()){
+				int tempId=(Integer) item.next();
+				TypeFlow temp=this.typeFlowDao.find("from TypeFlow where typeid="+tempId);
+				flag=this.typeFlowDao.delete(temp);
+			}
+			return flag;
+	}
+	public void getNode(int id){
+		//最上级
+		CFlowtype flowType=this.flowTypeDao.findById(id);
+		//第二层
+		List<CFlowtype> list=this.flowTypeDao.findList("from CFlowtype where parentid="+flowType.getId());
+			Iterator<CFlowtype> item=list.iterator();
+			while(item.hasNext()){
+				CFlowtype temp=(CFlowtype) item.next();
+				idList.add(temp.getId());
+				this.getNode(temp.getId());
+			}
+			
+	}
 }
