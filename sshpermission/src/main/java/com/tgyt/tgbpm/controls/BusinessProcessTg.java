@@ -29,13 +29,13 @@ import org.jbpm.api.NewDeployment;
 import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.RepositoryService;
-import org.jbpm.pvm.internal.stream.ByteArrayStreamInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import sun.misc.BASE64Decoder;
 
+import com.tgyt.flowList.model.TypeFlow;
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.tgbpm.biz.ITgTaskUserService;
 
@@ -66,17 +66,21 @@ public class BusinessProcessTg extends BaseTg{
 	private String xml;
 	//图片的字节数组的字符串
 	private String images;
+	//保存的流程定义所属的流程类型ID
+	private int flowTypeId;
+	
+	public int getFlowTypeId() {
+		return flowTypeId;
+	}
 
-	/**
-	 * @return the images
-	 */
+	public void setFlowTypeId(int flowTypeId) {
+		this.flowTypeId = flowTypeId;
+	}
+
 	public String getImages() {
 		return images;
 	}
 
-	/**
-	 * @param images the images to set
-	 */
 	public void setImages(String images) {
 		this.images = images;
 	}
@@ -199,6 +203,15 @@ public class BusinessProcessTg extends BaseTg{
 				deployment.addResourceFromInputStream(imageResourceName, input);
 			}
 			deployment.deploy();
+			
+			//以下代码用来在流程类型中间表中存储新建流程信息
+			ProcessDefinition def= repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).uniqueResult();
+			TypeFlow type = new TypeFlow();
+			type.setTypeid(flowTypeId);
+			type.setFlowid(Integer.parseInt(deployment.getId()));
+			type.setFlowname(def.getName());
+			type.setVersion(def.getVersion());
+			type.setFlowdescribe(def.getDescription());
 			
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
