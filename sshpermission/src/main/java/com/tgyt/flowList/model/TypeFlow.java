@@ -25,6 +25,7 @@ public class TypeFlow implements java.io.Serializable {
 	private Integer flowid;
 	private String flowname;
 	private String flowdescribe;
+	private String flag;
 
 	// Constructors
 
@@ -34,11 +35,12 @@ public class TypeFlow implements java.io.Serializable {
 
 	/** full constructor */
 	public TypeFlow(Integer typeid, Integer flowid, String flowname,
-			String flowdescribe) {
+			String flowdescribe,String flag) {
 		this.typeid = typeid;
 		this.flowid = flowid;
 		this.flowname = flowname;
 		this.flowdescribe = flowdescribe;
+		this.flag=flag;
 	}
 
 	// Property accessors
@@ -98,5 +100,14 @@ public class TypeFlow implements java.io.Serializable {
 	public void setFlowdescribe(String flowdescribe) {
 		this.flowdescribe = flowdescribe;
 	}
+	@Column(name = "flag", length = 10)
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	
 
 }
