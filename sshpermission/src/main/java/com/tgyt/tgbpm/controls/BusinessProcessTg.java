@@ -189,42 +189,17 @@ public class BusinessProcessTg extends BaseTg{
 		try{
 			RepositoryService repositoryService = processEngine.getRepositoryService();
 			NewDeployment deployment = repositoryService.createDeployment();
-//			request.setCharacterEncoding("UTF-8");
-			//流程对应的图片资源名称
-//			String imageResourceName = request.getParameter("imageResourceName");
-//			String processDef = request.getParameter("processDef");
 			//发布的流程XML内容
-			System.out.println("********************************"+xml);
 			if(processDef!=null && !"".equals(processDef) && xml!=null && !"".equals(xml)){
-				System.out.println("=========================="+xml);
 				deployment.addResourceFromString(processDef, xml);
 			}
 			if(imageResourceName!=null && !"".equals(imageResourceName)){
-				System.out.println(images);
-				System.out.println("========================="+request.getParameter("images").getBytes().length);
 				BASE64Decoder decoder = new BASE64Decoder();
 				InputStream input = new ByteArrayInputStream(decoder.decodeBuffer(images));
 				deployment.addResourceFromInputStream(imageResourceName, input);
 			}
 			deployment.deploy();
 			
-//			InputStream in =request.getInputStream();
-//			
-//			int formlength = request.getContentLength();
-//			byte[] formcontent = new byte[formlength];
-//			int totalread = 0;
-//			int nowread = 0;
-//			while (totalread < formlength) {
-//				nowread = in.read(formcontent, totalread, formlength);
-//				totalread += nowread;
-//			}
-//			System.out.println("========================"+formlength+"========================"+formcontent.length);
-//			ByteArrayInputStream byteIn = new ByteArrayInputStream(formcontent);
-//			//获得前台传过来的zip流
-//			ZipInputStream zin = new ZipInputStream(byteIn);
-//			repositoryService.createDeployment().addResourcesFromZipInputStream(zin).deploy();
-//			zin.close();
-//			in.close();
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
 			e.printStackTrace();
