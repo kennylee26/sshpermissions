@@ -91,8 +91,10 @@ public class CFlowTypeService extends BaseService<CFlowtype> implements
 			while(item.hasNext()){
 				int tempId=(Integer) item.next();
 				TypeFlow temp=this.typeFlowDao.find("from TypeFlow where typeid="+tempId);
-				flag=this.typeFlowDao.delete(temp);
+				this.typeFlowDao.delete(temp);
+				flag=this.flowTypeDao.deleteById(tempId);
 			}
+		
 			return flag;
 	}
 	public void getNode(int id){

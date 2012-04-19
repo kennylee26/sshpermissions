@@ -129,9 +129,8 @@ public class CFlowTypeTg extends BaseTg {
 	 * @throws
 	 */
 	public void delteType() {
-		this.flowType=flowTypeService.find("from CFlowtype where id ="+this.id);
-		System.out.println(flowType) ;
-		if (flowTypeService.delete(flowType)) {
+		int ID=Integer.parseInt(id);
+		if (flowTypeService.deleteType(ID)) {
 			responseJSON("{\"success\":true}");
 		} else {
 			responseJSON("{\"error\":true}");
