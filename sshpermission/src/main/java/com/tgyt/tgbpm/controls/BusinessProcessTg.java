@@ -9,6 +9,7 @@
 
 package com.tgyt.tgbpm.controls;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -28,9 +29,12 @@ import org.jbpm.api.NewDeployment;
 import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.RepositoryService;
+import org.jbpm.pvm.internal.stream.ByteArrayStreamInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import sun.misc.BASE64Decoder;
 
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.tgbpm.biz.ITgTaskUserService;
@@ -61,8 +65,22 @@ public class BusinessProcessTg extends BaseTg{
 	//发布的流程XML内容
 	private String xml;
 	//图片的字节数组的字符串
-	private String[] images;
-	
+	private String images;
+
+	/**
+	 * @return the images
+	 */
+	public String getImages() {
+		return images;
+	}
+
+	/**
+	 * @param images the images to set
+	 */
+	public void setImages(String images) {
+		this.images = images;
+	}
+
 	public String getXml() {
 		return xml;
 	}
@@ -71,13 +89,6 @@ public class BusinessProcessTg extends BaseTg{
 		this.xml = xml;
 	}
 
-	public String[] getImages() {
-		return images;
-	}
-
-	public void setImages(String[] images) {
-		this.images = images;
-	}
 
 	public String getImageResourceName() {
 		return imageResourceName;
@@ -177,28 +188,43 @@ public class BusinessProcessTg extends BaseTg{
 	public void saveAsJbpm4(){
 		try{
 			RepositoryService repositoryService = processEngine.getRepositoryService();
-//			NewDeployment deployment = repositoryService.createDeployment();
+			NewDeployment deployment = repositoryService.createDeployment();
 //			request.setCharacterEncoding("UTF-8");
-//			//流程对应的图片资源名称
+			//流程对应的图片资源名称
 //			String imageResourceName = request.getParameter("imageResourceName");
 //			String processDef = request.getParameter("processDef");
-//			//发布的流程XML内容
-//			String xml = URLDecoder.decode(request.getParameter("xml"),"UTF-8");
-//			System.out.println("********************************"+xml);
-//			if(processDef!=null && !"".equals(processDef) && xml!=null && !"".equals(xml)){
-//				System.out.println("=========================="+xml);
-//				deployment.addResourceFromString(processDef, xml);
+			//发布的流程XML内容
+			System.out.println("********************************"+xml);
+			if(processDef!=null && !"".equals(processDef) && xml!=null && !"".equals(xml)){
+				System.out.println("=========================="+xml);
+				deployment.addResourceFromString(processDef, xml);
+			}
+			if(imageResourceName!=null && !"".equals(imageResourceName)){
+				System.out.println(images);
+				System.out.println("========================="+request.getParameter("images").getBytes().length);
+				BASE64Decoder decoder = new BASE64Decoder();
+				InputStream input = new ByteArrayInputStream(decoder.decodeBuffer(images));
+				deployment.addResourceFromInputStream(imageResourceName, input);
+			}
+			deployment.deploy();
+			
+//			InputStream in =request.getInputStream();
+//			
+//			int formlength = request.getContentLength();
+//			byte[] formcontent = new byte[formlength];
+//			int totalread = 0;
+//			int nowread = 0;
+//			while (totalread < formlength) {
+//				nowread = in.read(formcontent, totalread, formlength);
+//				totalread += nowread;
 //			}
-//			if(imageResourceName!=null && !"".equals(imageResourceName)){
-//				System.out.println("=========================="+Arrays.toString(images));
-//				BASE64Decoder decoder = new BASE64Decoder();
-//				InputStream input = new ByteArrayInputStream((Arrays.toString(images)).getBytes());
-//				deployment.addResourceFromInputStream(imageResourceName, request.getInputStream());
-//			}
-//			deployment.deploy();
-			//获得前台传过来的zip流
-			ZipInputStream zin = new ZipInputStream(request.getInputStream());
-			repositoryService.createDeployment().addResourcesFromZipInputStream(zin).deploy();
+//			System.out.println("========================"+formlength+"========================"+formcontent.length);
+//			ByteArrayInputStream byteIn = new ByteArrayInputStream(formcontent);
+//			//获得前台传过来的zip流
+//			ZipInputStream zin = new ZipInputStream(byteIn);
+//			repositoryService.createDeployment().addResourcesFromZipInputStream(zin).deploy();
+//			zin.close();
+//			in.close();
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
 			e.printStackTrace();
