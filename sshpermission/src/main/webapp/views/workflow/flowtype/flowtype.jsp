@@ -222,12 +222,12 @@
 						singleSelect="true" rownumbers="true" disabled="true" >
 					<thead>
 						<tr>
-							<th field="id" align="center"  width="100"  sorta ble="true">序号</th>
-							<th field="flowname" align="center"  width="100" sortable="true">流程名称</th>
-							<th field="flowdescribe" align="center"  width="100" >流程描述</th>
+							<th field="id" align="center"  width="50"  sorta ble="true">序号</th>
+							<th field="flowname" align="center"  width="150" sortable="true">流程名称</th>
+							<th field="flowdescribe" align="center"  width="250" >流程描述</th>
 							<th field="version" align="center"  width="150" sortable="true">流程版本</th>
-							<th field="flag"  align="center" width="250">备注</th>
-							<th field="memo"  align="center" width="250" formatter="formatTypeResult">操作</th>
+							<th field="flag"  align="center" width="50">状态</th>
+							<th field="memo"  align="center" width="150" formatter="formatTypeResult">操作</th>
 						</tr>
 					</thead>
 				</table> 
