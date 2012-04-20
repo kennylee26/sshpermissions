@@ -171,7 +171,7 @@
 			}
 		}
 		function formatTypeResult(value,rowData){
-			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag()">标识</a>';
+			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag('+rowData.id+')">标识</a>';
 			return c;
 		}
 		var k=0;
@@ -196,8 +196,20 @@
 // 					}
 // 				});
         }
-        function flag(){
-        	
+        function flag(id){
+        	url = '<c:url value="/listflow/revertStatusTypeFlowTg.tg?id="/>'+id;
+			 $('#upload').form('submit',{
+					url:url,
+					onSubmit:function(){return true;},
+					success:function(data){
+						data=eval('('+data+')');
+						if(data.success){
+							$('#dt-resources').datagrid("reload");
+						}else{
+							$.messager.alert('提示','修改状态失败');  
+						}
+					}
+				});
         }
 	</script>
 </head>

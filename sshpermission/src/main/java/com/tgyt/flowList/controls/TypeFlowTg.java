@@ -113,6 +113,29 @@ public class TypeFlowTg extends BaseTg {
 			}
 		}
 	}
+	/**
+	 * 
+	  * @Title: revertStatus 
+	  * @Description: 用来修改当前流程的状态
+	  * @param 
+	  * @return void
+	  * @throws
+	 */
+	public void revertStatus(){
+		try{
+			TypeFlow flow = this.typeFlowService.findById(id);
+			if(ITypeFlowService.CLOSE_STATE.equals(flow.getFlag())){
+				flow.setFlag(ITypeFlowService.OPEN_STATE);
+			}else{
+				flow.setFlag(ITypeFlowService.CLOSE_STATE);
+			}
+			this.typeFlowService.alter(flow);
+			outJsonPlainString(response, "{\"success\":true}");
+		}catch(Exception e){
+			e.printStackTrace();
+			outJsonPlainString(response, "{\"error\":true}");
+		}
+	}
 	public void getFlowItems(){
 		if(treeId!=null&&!"".equals(treeId)){
 			id=Integer.parseInt(treeId);

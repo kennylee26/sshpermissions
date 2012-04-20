@@ -55,7 +55,6 @@ public class TypeFlow implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Version
 	@Column(name = "version")
 	public Integer getVersion() {
 		return this.version;
