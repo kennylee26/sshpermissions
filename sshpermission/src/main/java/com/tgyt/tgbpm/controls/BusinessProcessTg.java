@@ -35,6 +35,7 @@ import org.springframework.stereotype.Controller;
 
 import sun.misc.BASE64Decoder;
 
+import com.tgyt.flowList.biz.ITypeFlowService;
 import com.tgyt.flowList.model.TypeFlow;
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.tgbpm.biz.ITgTaskUserService;
@@ -55,6 +56,8 @@ public class BusinessProcessTg extends BaseTg{
 	private ProcessEngine processEngine ;
 	@Autowired
 	private ITgTaskUserService tgTaskUserService;
+	@Autowired
+	private ITypeFlowService typeFlowService;
 	//发布的流程文件名称
 	private String processDef;
 	//流程部署ID
@@ -212,25 +215,9 @@ public class BusinessProcessTg extends BaseTg{
 			type.setFlowname(def.getName());
 			type.setVersion(def.getVersion());
 			type.setFlowdescribe(def.getDescription());
+			type.setFlag(ITypeFlowService.CLOSE_STATE);
+			typeFlowService.save(type);
 			
-			outJsonPlainString(response, "{\"success\":true}");
-		}catch(Exception e){
-			e.printStackTrace();
-			outJsonPlainString(response, "{\"success\":false}");
-		}
-	}
-	public void saveAsJbpm4Image(){
-		try{
-			RepositoryService repositoryService = processEngine.getRepositoryService();
-			NewDeployment deployment = repositoryService.createDeployment();
-//			if(imageResourceName!=null && !"".equals(imageResourceName) && images!=null && images.length>0){
-//				System.out.println("=========================="+Arrays.toString(images));
-//				BASE64Decoder decoder = new BASE64Decoder();
-//				InputStream input = new ByteArrayInputStream((Arrays.toString(images)).getBytes());
-//				deployment.addResourceFromInputStream(imageResourceName, input);
-//			}
-			deployment.addResourceFromInputStream("leave.png", request.getInputStream());
-			deployment.deploy();
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
 			e.printStackTrace();

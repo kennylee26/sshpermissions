@@ -45,7 +45,14 @@
 					return document[movieName]; 
 				}
 			}
-        
+	        var flowParams = {};
+        	function setParams(flowTypeId){
+        		flowParams.flowTypeId = flowTypeId;
+        	}
+        	function setCurrentFlowTypeId(){
+        		var swf = findSWF("tgWorkFlow");
+        		swf.setFlowTypeId(flowParams.flowTypeId);
+        	}
             // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
             var swfVersionStr = "10.2.0";
             // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
@@ -66,8 +73,8 @@
                 "100%", "100%", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
-            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
             swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
         </script>
     </head>
     <body>

@@ -164,7 +164,7 @@
 				}
 				i++;
 				//将当前选中类型ID传给流程设计器
-				window.document.getElementById("tgWorkFlow").contentWindow.params.flowTypeId=node.id;
+				window.document.getElementById("tgWorkFlow").contentWindow.setParams(node.id);
 				$('#dlgflow').dialog('open').dialog('setTitle', '新建流程');
 			}else{
 				alert("请选择类型");
