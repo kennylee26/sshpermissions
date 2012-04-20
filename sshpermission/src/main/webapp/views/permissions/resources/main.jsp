@@ -148,7 +148,7 @@
 			}
 		}
 		function loadAllTrees(){
-			url = '<c:url value="/permissions/resources/getAllHTMLTreesResources.tg"/>?';
+			url = '<c:url value="/permissions/resources/getAllHTMLTreesResources.tg"/>';
 			 $('#myform').form('submit',{
 					url:url,
 					onSubmit:function(){return true;},

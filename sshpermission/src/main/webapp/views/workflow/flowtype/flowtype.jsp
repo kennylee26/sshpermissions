@@ -170,12 +170,31 @@
 				alert("请选择类型");
 			}
 		}
-		function formatTypeResult(){
-			var c = '<a href="#" onclick="showFlow()">查看</a><a href="#" onclick="flag()">标识</a>';
+		function formatTypeResult(value,rowData){
+			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag()">标识</a>';
 			return c;
-			}
-        function showFlow(){
-        	
+		}
+		var k=0;
+        function showFlow(flowid,typeid){
+        	window.document.getElementById("tgWorkFlow").contentWindow.setParams(typeid);
+        	//如果k>0，表示不是第一次调用此函数，也就意味着流程设计器已经加载完毕，那么就直接能调用流程设计器的初始化函数
+        	if(k>0){
+        		var swf = window.document.getElementById("tgWorkFlow").contentWindow.findSWF("tgWorkFlow");
+        		swf.initFlow(flowid);
+        	}else{
+        		//因为流程设计器还未初始化完毕，只能先把当前的流程ID赋值到流程设计器页面
+	        	window.document.getElementById("tgWorkFlow").contentWindow.setDeploymentId(flowid);
+        	}
+        	k++;
+			$('#dlgflow').dialog('open').dialog('setTitle', '查看流程');
+//         	url = '<c:url value="/tgbpm/businessprocess/getProcessXMLBusinessProcess.tg?deploymentId="/>'+flowid;
+// 			 $('#upload').form('submit',{
+// 					url:url,
+// 					onSubmit:function(){return true;},
+// 					success:function(data){
+// 						alert(data);
+// 					}
+// 				});
         }
         function flag(){
         	
@@ -252,5 +271,5 @@
 		<div onclick="expandAll()">全部展开</div>
 		<div onclick="collapseAll()">全部收缩</div>
 	</div>
-
+	<form id="upload" method="post"></form>
 </body>

@@ -46,12 +46,26 @@
 				}
 			}
 	        var flowParams = {};
+	        //让父页面调用，用来设置流程类型的ID
         	function setParams(flowTypeId){
         		flowParams.flowTypeId = flowTypeId;
         	}
+	        //让父页面调用，用来设置要加载的流程部署ID
+        	function setDeploymentId(id){
+        		flowParams.deploymentId = id;
+        	}
+        	//该函数用来初始化流程设计器，是被流程设计器调用的函数，调用方法在TgMenuBar.mxml的private function itemClick(event:MenuEvent)
+        	//ExternalInterface.call("setCurrentFlowTypeId");用来在发布流程之前，把当前的流程类型ID传给设计器
         	function setCurrentFlowTypeId(){
-        		var swf = findSWF("tgWorkFlow");
+	       		var swf = findSWF("tgWorkFlow");
+	       		//调用流程设计器的private function setFlowTypeId(flowTypeId:String)函数，设置流程类型ID
         		swf.setFlowTypeId(flowParams.flowTypeId);
+        	}
+        	//该函数用来初始化流程设计器，是被流程设计器调用的函数，调用方法在tgWorkFlow.mxml的private function init()里面
+        	function initFlow(){
+	       		var swf = findSWF("tgWorkFlow");
+	       		//调用流程设计器的initFlow函数，用来初始化指定流程
+        		swf.initFlow(flowParams.deploymentId);
         	}
             // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
             var swfVersionStr = "10.2.0";

@@ -9,10 +9,15 @@
 
 package com.tgyt.tgbpm.controls;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,9 +34,11 @@ import org.jbpm.api.NewDeployment;
 import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.RepositoryService;
+import org.jbpm.pvm.internal.repository.RepositoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.webmacro.util.HTMLEscaper;
 
 import sun.misc.BASE64Decoder;
 
@@ -247,7 +254,6 @@ public class BusinessProcessTg extends BaseTg{
 	
 	public void getImage(){
 		try{
-			processEngine.getHistoryService().createHistoryTaskQuery().list();
 			RepositoryService repositoryService = processEngine.getRepositoryService();
 			InputStream inputStream = repositoryService.getResourceAsStream(deploymentId,imageResourceName);
 			//InputStream inputStream =new FileInputStream(new File("D:/program/java/servers/apache-tomcat-5.5.23/webapps/jbpm2/WEB-INF/classes/leave.png"));
@@ -261,6 +267,27 @@ public class BusinessProcessTg extends BaseTg{
 			sos.close();
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	public void getProcessXML(){
+		try{
+			RepositoryService repositoryService = processEngine.getRepositoryService();
+			ProcessDefinition def= repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).uniqueResult();
+			InputStream in= repositoryService.getResourceAsStream(deploymentId,def.getName()+".jpdl.xml");
+			int length ;
+			byte[] bytes = new byte[1024];
+			BufferedInputStream buffer = new BufferedInputStream(in);
+			StringBuffer str = new StringBuffer();
+			
+			while((length=buffer.read(bytes))!=-1){
+				str.append(new String(bytes,0,length));
+			}
+			String xml = str.toString();
+			outJsonPlainString(response, xml);
+		}catch(Exception e){
+			e.printStackTrace();
+			outJsonPlainString(response, "''");
 		}
 	}
 }
