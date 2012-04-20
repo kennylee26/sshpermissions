@@ -34,13 +34,14 @@ public class TypeFlow implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public TypeFlow(Integer typeid, Integer flowid, String flowname,
+	public TypeFlow(Integer typeid, Integer flowid, String flowname,Integer version,
 			String flowdescribe,String flag) {
 		this.typeid = typeid;
 		this.flowid = flowid;
 		this.flowname = flowname;
 		this.flowdescribe = flowdescribe;
 		this.flag=flag;
+		this.version=version;
 	}
 
 	// Property accessors
