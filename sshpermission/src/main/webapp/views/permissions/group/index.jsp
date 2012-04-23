@@ -17,13 +17,13 @@
 						<td>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增组</a>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改组</a>
-							<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除组</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="lookItem()">查看组信息</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="addUserItem()">添加用户</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="delUserItem()">删除组内用户</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="groupToRole()">组授权角色</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="lookGroupHaveRole()">查看组拥有的角色</a>
-							<a href="#" class="easyui-linkbutton"plain="true" onclick="removeGroupHaveRole()">移除组拥有的角色</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delItem()">删除组</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookItem()">查看组信息</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUserItem()">添加用户</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delUserItem()">删除组内用户</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="groupToRole()">组授权角色</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookGroupHaveRole()">查看组拥有的角色</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="removeGroupHaveRole()">移除组拥有的角色</a>
 						</td>
 					</tr>
 				</table>
