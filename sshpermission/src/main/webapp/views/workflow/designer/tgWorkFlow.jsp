@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
     <!-- 
     Smart developers always View Source. 
     

@@ -281,9 +281,10 @@ public class BusinessProcessTg extends BaseTg{
 			StringBuffer str = new StringBuffer();
 			
 			while((length=buffer.read(bytes))!=-1){
-				str.append(new String(bytes,0,length));
+				str.append(new String(bytes,0,length,"UTF-8"));
 			}
 			String xml = str.toString();
+//			System.out.println(xml);
 			outJsonPlainString(response, xml);
 		}catch(Exception e){
 			e.printStackTrace();
