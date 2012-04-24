@@ -83,30 +83,30 @@
 		</div>
 	</div>  -->
 	
+	 <form id="self" method="post">
+	 <input type="hidden" id="gid" name="groupid" value=""/>
+	 </form>
 	<div id="adduser" style="width:400px;height:400px;" class="easyui-dialog" closed="true" modal="true" buttons="#dlg-buttons">
-		<div style="padding-left:40px;">
-		<h4 style="text-align: center;">可以添加的用户</h4>
-			<form id="self">
-				<input type="hidden" id="gid" name="groupid" value=""/>
-				<table border="0.5">
-					<thead>
-						<tr>
-							<td>
-							<input type="checkbox" name="selectall" onclick="selectAll(this);"/>
-								<!-- <input type="button" id="selectall" value="全选" onclick="selectAll();"/></td> -->
-							<td>用户名称</td><td>电话</td><td>邮箱</td>
-						</tr>
-					</thead>
-					<tbody>
-						
-					</tbody>
-				</table>
-			</form>
-		</div>
+	        
+			<table id="dt-otheruser" class="easyui-datagrid"
+					fit="true" border="false" 
+					url="<c:url value='/user/getOtherUser.tg'/>"
+					pagination="true"
+					singleSelect="false" rownumbers="true" disabled="true" >
+				<thead>
+					<tr>
+						<th field="name" width="100" >用户名称</th>
+						<th field="position" width="50">职位</th>
+						<th field="email" width="150">邮箱</th>
+					</tr>
+				</thead>
+			</table>
+
 		<div id="dlg-buttons" style="text-align:center;">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="addUsers()">确定</a>
 		</div>
 	</div>
+		
 				<!-- ==== -->
 				
 				

@@ -310,7 +310,6 @@
 			}
 		}
 		function addUserItem(){
-			
 			var obj = $('#tree').tree('getSelected');
 			if(obj){
 				var id =obj.id.substr(4);
@@ -341,10 +340,7 @@
 					},
 					success: function(data){
 						data=eval('('+data+')');
-						for(var i=0;i<data.rows.length;i++){
-							var temp = '<tr><td><input type="checkbox" name="userIds" value="' + data.rows[i].id + '"/></td><td>' + data.rows[i].name + '</td><td>' + data.rows[i].phone + '</td><td>' + data.rows[i].email + '</td></tr>';
-							$('#adduser form table tbody').append(temp);
-						}
+						$("#dt-otheruser").datagrid('loadData',data);
 					}
 				});
 				$('#gid').val(id);
@@ -353,7 +349,15 @@
 			}
 		}
 		function addUsers(){
-			url = '<c:url value="/group/addUserToGroup.tg"/>'; 
+			var selected=$("#dt-otheruser").datagrid('getSelections');
+			var temp = "";
+			for ( var i = 0; i < selected.length; i++) {
+					temp = temp + selected[i].id ;
+					if(i != selected.length-1){
+						temp += ",";
+					}
+			}
+			url = '<c:url value="/group/addUserToGroup.tg?userIds="/>'+temp; 
 			$('#self').form('submit', {
 				url:url,
 				onSubmit: function(){
