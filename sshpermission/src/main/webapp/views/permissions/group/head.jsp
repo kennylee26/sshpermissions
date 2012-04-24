@@ -432,7 +432,7 @@
 			}
 		}
 		function groupToRole(){
-			$('#rolGroup form table tbody').html('');
+			//$('#rolGroup form table tbody').html('');
 			
 			var obj = $('#tree').tree('getSelected');
 			if(obj){
@@ -441,10 +441,13 @@
 					$.messager.alert('提示','根元素内成员不授权','info'); 
 					return;
 				}
-				$('#rolGroup').dialog('setTitle', '组授权角色').dialog('open');
+				$("#dlg-button a::first-child").show();
+				$("#dlg-button a::last-child").hide();
+				$("#dlg-button a:nth-child(2)").show();
+				$('#dlgwindow').dialog('setTitle', '组授权角色').dialog('open');
 				
-				$('#role-buttons a').first().show();
-				$('#role-buttons a').last().hide();
+				//$('#role-buttons a').first().show();
+				//$('#role-buttons a').last().hide();
 				
 				$('#groupid').val(id);
 				url = '<c:url value="/group/otherRoleFromGroup.tg"/>';  
@@ -453,10 +456,11 @@
 					success: function(data){
 						$('#gsid').val(id);
 						data=eval('('+data+')');
-						for(var i=0;i<data.length;i++){
+						/*  for(var i=0;i<data.length;i++){
 							var temp = '<tr><td><input type="checkbox" name="roleIds" value="' + data[i].id + '"/></td><td>' + data[i].name + '</td><td>&nbsp;</td><td>' + data[i].memo + '</td></tr>';
 							$('#rolGroup form table tbody').append(temp);
-						}
+						}  */
+						$('#dt-group').datagrid("loadData", data);
 					}
 				});
 			}else{
@@ -464,11 +468,26 @@
 			}
 		}
 		function addRole(){
-			url = '<c:url value="/group/addRoleToGroup.tg"/>';  
-			$('#selectRole').form('submit', {
+			
+			var selected = $('#dt-group').datagrid('getSelections');
+			//alert(JSON.stringify(selected));
+			var temp = "";
+			for ( var i = 0; i < selected.length; i++) {
+					temp = temp + selected[i].id ;
+					if(i != selected.length-1){
+						temp += ",";
+					}
+			}
+			//var data = select
+			//alert(temp);
+			url = '<c:url value="/group/addRoleToGroup.tg"/>?roleIds='+temp; 
+			//var data = '{"roleIds":"' + temp + '"}';
+			$('#addRole').form('submit', {
 				url:url,
 				success: function(data){
-					$('#rolGroup').dialog('close');
+					data=eval('('+data+')');
+					$('#dlgwindow').dialog('close')
+					//$('#rolGroup').dialog('close');
 				}
 			});
 		}
@@ -480,20 +499,24 @@
 					$.messager.alert('提示','根元素内成员不授权','info'); 
 					return;
 				}
-				$('#rolGroup form table tbody').html('');
+				/* $('#rolGroup form table tbody').html('');
 				$('#role-buttons a').first().show();
-				$('#role-buttons a').last().hide();
-				$('#rolGroup').dialog('setTitle', '查看组拥有的角色').dialog('open'); 
+				$('#role-buttons a').last().hide();  */
+				$("#dlg-button a::first-child").hide();
+				$("#dlg-button a::last-child").hide();
+				$("#dlg-button a:nth-child(2)").show();
+				$('#dlgwindow').dialog('setTitle', '查看组拥有的角色').dialog('open'); 
 				$('#groupid').val(id);
 				url = '<c:url value="/group/groupHaveRole.tg"/>';  
 				$('#groupForm').form('submit', {
 					url:url,
 					success: function(data){
 						data=eval('('+data+')');
-						for(var i=0;i<data.length;i++){
+						/* for(var i=0;i<data.length;i++){
 							var temp = '<tr><td></td><td>' + data[i].name + '</td><td>&nbsp;</td><td>' + data[i].memo + '</td></tr>';
 							$('#rolGroup form table tbody').append(temp);
-						}
+						} */
+						$('#dt-group').datagrid("loadData", data);
 					}
 				});
 			}else{
@@ -508,10 +531,13 @@
 					$.messager.alert('提示','根元素内没有角色','info'); 
 					return;
 				}
-				$('#rolGroup form table tbody').html('');
+				/* $('#rolGroup form table tbody').html('');
 				$('#role-buttons a').first().hide();
-				$('#role-buttons a').last().show();
-				$('#rolGroup').dialog('setTitle', '移除组拥有的角色').dialog('open'); 
+				$('#role-buttons a').last().show(); */
+				$("#dlg-button a::first-child").hide();
+				$("#dlg-button a::last-child").show();
+				$("#dlg-button a:nth-child(2)").hide();
+				$('#dlgwindow').dialog('setTitle', '移除组拥有的角色').dialog('open'); 
 				$('#groupid').val(id);
 				
 				url = '<c:url value="/group/groupHaveRole.tg"/>';  
@@ -520,10 +546,11 @@
 					success: function(data){
 						$('#gsid').val(id);
 						data=eval('('+data+')');
-						for(var i=0;i<data.length;i++){
+						/* for(var i=0;i<data.length;i++){
 							var temp = '<tr><td><input type="checkbox" name="roleIds" value="' + data[i].id + '"/></td><td>' + data[i].name + '</td><td>&nbsp;</td><td>' + data[i].memo + '</td></tr>';
 							$('#rolGroup form table tbody').append(temp);
-						}
+						} */
+						$('#dt-group').datagrid("loadData", data);
 					}
 				});
 			}else{
@@ -531,16 +558,28 @@
 			}
 		}
 		function removeRole(){
-			actionUrl = '<c:url value="/group/removeGroupHaveRole.tg"/>'; 
-			$('#selectRole').form('submit', {
+			//alert(1);
+			var selected = $('#dt-group').datagrid('getSelections');
+			//alert(JSON.stringify(selected));
+			var temp = "";
+			for ( var i = 0; i < selected.length; i++) {
+					temp = temp + selected[i].id ;
+					if(i != selected.length-1){
+						temp += ",";
+					}
+			}
+			//var data = select
+			//alert(temp);
+			actionUrl = '<c:url value="/group/removeGroupHaveRole.tg"/>?roleIds='+temp; 
+			$('#addRole').form('submit', {
 				url:actionUrl,
 				success: function(data){
 					data=eval('('+data+')');
-					$('#rolGroup').dialog('close')
+					$('#dlgwindow').dialog('close')
 				}
 			});
 		}
-		function clickeAll(tem){
+		/* function clickeAll(tem){
 			if(tem.checked){
 				$('#rolGroup form table tbody').find('input').each(function(i){
 					$(this).attr('checked',true);
@@ -550,5 +589,5 @@
 					$(this).removeAttr('checked');
 				});
 			}
-		}
+		} */
 	</script>
