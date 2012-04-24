@@ -21,9 +21,10 @@
 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookItem()">查看组信息</a>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUserItem()">添加用户</a>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delUserItem()">删除组内用户</a>
-							<a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="groupToRole()">组授权角色</a>
+							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="groupToRole()">组授权角色</a>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookGroupHaveRole()">查看组拥有的角色</a>
 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="removeGroupHaveRole()">移除组拥有的角色</a>
+
 						</td>
 					</tr>
 				</table>
@@ -57,8 +58,8 @@
 			</table>
 		</div>
 	</div>
-				<!-- ==== -->
-	<div id="rolGroup" style="width:250px;height:400px;" class="easyui-dialog" closed="true" modal="true" buttons="#role-buttons">
+				<!-- 李刚英写 -->
+	 <!-- <div id="rolGroup" style="width:250px;height:400px;" class="easyui-dialog" closed="true" modal="true" buttons="#role-buttons">
 		<div>
 			<h4 style="text-align: center;">可选角色</h4>
 			<form id="selectRole">
@@ -80,7 +81,7 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="addRole();">确定</a>
 			<a href="#" class="easyui-linkbutton" onclick="removeRole();">确定</a>
 		</div>
-	</div>
+	</div>  -->
 	
 	<div id="adduser" style="width:400px;height:400px;" class="easyui-dialog" closed="true" modal="true" buttons="#dlg-buttons">
 		<div style="padding-left:40px;">
@@ -216,5 +217,33 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#look').dialog('close')">关闭</a>
 		</div>
 	</div>
+	<!-- 为组添加角色的dialogue by 孙强 -->
+	<form id="addRole" method="post">
+	<input type="hidden" id="gsid" name="groupid" value=""/>
+	</form>
+	 <div id="dlgwindow" class="easyui-dialog" resizable="true"
+			maximizable="true" style="width: 640px; height: 380px;" closed="true"
+			modal="true" buttons="#dlg-button">
+			<table id="dt-group" class="easyui-datagrid" fit="true"
+				border="false" pagination="true" 
+				rownumbers="true">
+				
+				<thead>
+					<tr>
+						<th field="ck" width="100" sortable="true" checkbox="true" align="center"></th>
+						<th field="name" width="100" sortable="true" align="center">角色名称</th>
+						<th field="memo" width="100" sortable="true" align="center">备注</th>
+					</tr>
+				</thead>
+			</table>
+			<div id="dlg-button" style="text-align: center">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="addRole()">添加</a>
 			
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#dlgwindow').dialog('close')">关闭</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="removeRole()">移除</a>	
+			</div>
+			
+		</div>		
+	
 </body>
