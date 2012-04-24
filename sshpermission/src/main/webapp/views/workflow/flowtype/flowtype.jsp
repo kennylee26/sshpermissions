@@ -171,8 +171,13 @@
 			}
 		}
 		function formatTypeResult(value,rowData){
-			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag('+rowData.id+')">标识</a>';
-// 			var c = '<img src=\"<c:url value="/icons/update.png"/>\" style="cursor:hand " width="20" height="20" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')"/>&nbsp;&nbsp;<a href="#" onclick="flag('+rowData.id+')">标识</a>';
+// 			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag('+rowData.id+')">标识</a>';
+			var c = '<img src=\"<c:url value="/icons/2.png"/>\" title="编辑" style="cursor: pointer; "  onclick="showFlow('+rowData.flowid+','+rowData.typeid+')"/>&nbsp;&nbsp;';
+			if(rowData.flag=="启用"){
+				c +='<img src=\"<c:url value="/icons/3.png"/>\" title="启用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+			}else{
+				c +='<img src=\"<c:url value="/icons/4.png"/>\" title="禁用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+			}
 			return c;
 		}
         function showFlow(flowid,typeid){
