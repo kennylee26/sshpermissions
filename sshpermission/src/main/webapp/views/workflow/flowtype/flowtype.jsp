@@ -82,7 +82,8 @@
 			if (node){
 				var pnode = $('#mytree').tree('getParent', node.target);
 				$('#pname').html(pnode ? pnode.text : '');
-				$('#myform input[name=name]').val(node.text);
+				$('#typename').val(node.text);
+				
 				$('#dlg').dialog('open').dialog('setTitle', '修改');
 				actionUrl = '<c:url value="/workflow/flowtype/updateTypeCFlowTypeTg.tg"/>?id=' + node.id;
 			}else{
