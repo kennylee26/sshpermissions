@@ -1,11 +1,16 @@
 package com.tgyt.permissions.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 
 /** 
@@ -30,7 +35,8 @@ public class Actions  implements java.io.Serializable {
      private String status;
      private Integer orderid;
      private String memo;
-
+     private Set<Resources> resource = new HashSet<Resources>(
+ 			0);
 
     // Constructors
 
@@ -57,7 +63,36 @@ public class Actions  implements java.io.Serializable {
     }
 
    
-    // Property accessors
+    /** 
+	  * <p>Title: </p> 
+	  * <p>Description: </p> 
+	  * @param id
+	  * @param name
+	  * @param enname
+	  * @param methodName
+	  * @param icon
+	  * @param status
+	  * @param orderid
+	  * @param memo
+	  * @param resource 
+	  */ 
+	
+	public Actions(Integer id, String name, String enname, String methodName,
+			String icon, String status, Integer orderid, String memo,
+			Set<Resources> resource) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.enname = enname;
+		this.methodName = methodName;
+		this.icon = icon;
+		this.status = status;
+		this.orderid = orderid;
+		this.memo = memo;
+		this.resource = resource;
+	}
+
+	// Property accessors
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id", unique=true, nullable=false)
@@ -139,4 +174,19 @@ public class Actions  implements java.io.Serializable {
         this.memo = memo;
     }
 
+	/**
+	 * @return the resource
+	 */
+    @ManyToMany(mappedBy="actions")
+	public Set<Resources> getResource() {
+		return resource;
+	}
+
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(Set<Resources> resource) {
+		this.resource = resource;
+	}
+    
 }

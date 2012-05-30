@@ -12,9 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 
 /** 
@@ -43,6 +46,8 @@ public class Resources  implements java.io.Serializable {
      private Integer orderid;
      private String memo;
      private Set<Resources> children = new HashSet<Resources>(0);
+     private Set<Actions> actions = new HashSet<Actions>(
+ 			0);
 
 
     // Constructors
@@ -80,7 +85,52 @@ public class Resources  implements java.io.Serializable {
     }
 
    
-    // Property accessors
+    /** 
+	  * <p>Title: </p> 
+	  * <p>Description: </p> 
+	  * @param id
+	  * @param parent
+	  * @param system
+	  * @param name
+	  * @param enname
+	  * @param resourcetype
+	  * @param link
+	  * @param icon
+	  * @param iconopen
+	  * @param isopen
+	  * @param isleaf
+	  * @param status
+	  * @param orderid
+	  * @param memo
+	  * @param children
+	  * @param resource 
+	  */ 
+	
+	public Resources(Integer id, Resources parent, Systems system, String name,
+			String enname, String resourcetype, String link, String icon,
+			String iconopen, String isopen, String isleaf, String status,
+			Integer orderid, String memo, Set<Resources> children,
+			Set<Actions> actions) {
+		super();
+		this.id = id;
+		this.parent = parent;
+		this.system = system;
+		this.name = name;
+		this.enname = enname;
+		this.resourcetype = resourcetype;
+		this.link = link;
+		this.icon = icon;
+		this.iconopen = iconopen;
+		this.isopen = isopen;
+		this.isleaf = isleaf;
+		this.status = status;
+		this.orderid = orderid;
+		this.memo = memo;
+		this.children = children;
+		this.actions = actions;
+	}
+
+	// Property accessors
     @Id 
     @Column(name="id", unique=true, nullable=false)
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -228,8 +278,29 @@ public class Resources  implements java.io.Serializable {
     public void setChildren(Set<Resources> children) {
         this.children = children;
     }
-   
 
+	/**
+	 * @return the resource
+	 */
+    @ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+	@JoinTable(
+			name="c_resource_action", //中间表名
+			joinColumns={@JoinColumn(name="resource_id")}, //设置自己在中间表的对应外键
+			inverseJoinColumns={@JoinColumn(name="action_id") //设置对方()在中间表的对应外键
+			}
+			)
+	public Set<Actions> getResource() {
+		return actions;
+	}
+
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(Set<Actions> actions) {
+		this.actions = actions;
+	}
+   
+    
 
 
 
