@@ -69,10 +69,14 @@ public class TgPermissionsRealm extends AuthorizingRealm{
 					resources = role.getResources();
 					for(Resources resource : resources){
 						RoleAuth roleAuth = this.roleAuthService.find("from RoleAuth where roleId ="+role.getId()+" and resourceId ="+resource.getId());
-						String[] actionString = roleAuth.getActions().split(",");
-						for(String action : actionString){
-							info.addStringPermission(action);
+						if(roleAuth!=null && roleAuth.getActions()!=null &&!"".equals(roleAuth.getActions())){
+							String[] actionString = roleAuth.getActions().split(",");
+							for(String action : actionString){
+								//shiro权限字符串为：“当前资源英文名称:操作名英文名称”
+								info.addStringPermission(action);
+							}
 						}
+						
 						//info.addStringPermission(roleAuth.getActions());
 					}
 				}

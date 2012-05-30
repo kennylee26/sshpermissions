@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tgEasyui" %>
 <head>
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>权限管理系统</title>
@@ -156,13 +157,18 @@
 					<table cellpadding="0" cellspacing="0" style="width:95%" >
 						<tr>
 							<td>
-								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
-								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
-								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a>
-								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a>
+								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="action:add" operationName="新增"/>
+								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="action:modify" operationName="修改"/>
+								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="action:delete" operationName="删除"/>
+								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="action:refresh" operationName="刷新"/>
+<!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
+<!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
+<!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
+<!-- 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> -->
 							</td>
 							<td style="text-align:right">
-								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a>
+								<tgEasyui:easyuiButton  method="advanceQuery()" permission="action:advanceQuery" operationName="高级查询"/>
+<!-- 								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a> -->
 							</td>
 						</tr>
 					</table>
