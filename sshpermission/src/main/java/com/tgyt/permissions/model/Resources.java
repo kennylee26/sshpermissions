@@ -282,13 +282,12 @@ public class Resources  implements java.io.Serializable {
 	/**
 	 * @return the resource
 	 */
-    @ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(
-			name="c_resource_action", //中间表名
-			joinColumns={@JoinColumn(name="resource_id")}, //设置自己在中间表的对应外键
-			inverseJoinColumns={@JoinColumn(name="action_id") //设置对方()在中间表的对应外键
-			}
-			)
+			name="c_resource_action",//中间表名
+			joinColumns={@JoinColumn(name="resource_id")},//设置自己在中间表的对应外键
+			inverseJoinColumns={@JoinColumn(name="action_id")}//设置对方()在中间表的对应外键
+	)
 	public Set<Actions> getResource() {
 		return actions;
 	}
