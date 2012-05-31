@@ -3,11 +3,14 @@ package com.tgyt.permissions.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -177,12 +180,12 @@ public class Actions  implements java.io.Serializable {
 	/**
 	 * @return the resource
 	 */
-    @ManyToMany(cascade={CascadeType.MERGE})
-   	@JoinTable(
-   			name="c_resource_action",
-   			joinColumns={@JoinColumn(name="action_id")},
-   			inverseJoinColumns={@JoinColumn(name="resource_id")}
-   	) 
+    @ManyToMany(cascade=CascadeType.MERGE)
+	@JoinTable(
+			name="c_resource_action",//中间表名
+			joinColumns={@JoinColumn(name="action_id")},//设置自己在中间表的对应外键
+			inverseJoinColumns={@JoinColumn(name="resource_id")}//设置对方()在中间表的对应外键
+	)
 	public Set<Resources> getResource() {
 		return resource;
 	}
