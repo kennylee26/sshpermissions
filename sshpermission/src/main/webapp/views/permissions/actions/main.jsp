@@ -97,7 +97,7 @@
 				initTree(row);
 				url = '<c:url value="/permissions/actions/saveAuthorizateActions.tg"/>?id='+row["id"];
 				row = JSON.stringify(row).replace(/\./g,"\\\\.");
-				$('#auth').dialog('setTitle','角色分配资源').dialog('open');
+				$('#auth').dialog('setTitle','操作分配资源').dialog('open');
 			} else {
 				$.messager.show({
 					title:'注意',
