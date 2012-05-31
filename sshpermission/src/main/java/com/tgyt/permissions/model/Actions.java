@@ -177,7 +177,12 @@ public class Actions  implements java.io.Serializable {
 	/**
 	 * @return the resource
 	 */
-    @ManyToMany(mappedBy="actions")
+    @ManyToMany(cascade={CascadeType.MERGE})
+   	@JoinTable(
+   			name="c_resource_action",
+   			joinColumns={@JoinColumn(name="action_id")},
+   			inverseJoinColumns={@JoinColumn(name="resource_id")}
+   	) 
 	public Set<Resources> getResource() {
 		return resource;
 	}
