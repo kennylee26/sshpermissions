@@ -66,8 +66,30 @@ public class ActionsTg extends BaseTg {
 		   "resource"
 		 }); 
 		 str = JSONSerializer.toJSON(list,config).toString();
+		System.out.println(str);
 		try {
 			outJsonString(response,"{\"total\":" + pagination.getTotalCount() + ",\"rows\":"+str + "}");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void getItem(){
+		Pagination pagination = this.actionsService.getActionsList(this.getAction(), page, rows,sort,order);
+		List list = pagination.getList();
+		String  str="";
+		JsonConfig config = new JsonConfig();   
+		 config.setIgnoreDefaultExcludes(false);      
+		 config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);    
+		// config.registerJsonValueProcessor(Date.class,new DateJsonValueProcessor("yyyy-MM-dd")); //date processor register   
+		 config.setExcludes(new String[]{//只要设置这个数组，指定过滤哪些字段。   
+		   "resource"
+		 }); 
+		 str = JSONSerializer.toJSON(list,config).toString();
+		System.out.println(str);
+		try {
+			outJsonString(response,str);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,43 +147,8 @@ public class ActionsTg extends BaseTg {
 			outJsonPlainString(response, "{\"error\":true}");
 		}
 	}
-	/** 
-	  * @Title: getAllTrees 
-	  * @Description:根据操作ID获得获得所有资源树，其中角色有权限的资源checkbox为true  
-	  * @param 
-	  * @return void
-	  * @throws 
-	  */
-	public void getAllTrees(){
-		try {
-			JSONArray json = JSONArray.fromObject(this.actionsService.getAllListTrees(id));
-			outJsonString(response,json.toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			outJsonPlainString(response,"[]");
-		}
-	}
-	/** 
-	  * @Title: saveAuthorizate 
-	  * @Description: 给指定ID的角色分配资源 
-	  * @param 
-	  * @return void
-	  * @throws 
-	  */
-	public void saveAuthorizate(){
-		try{
-			this.actionsService.saveAuthorizate(id,rids);
-			outJsonPlainString(response, "{\"success\":true}");
-		}catch(Exception e){
-			
-			outJsonPlainString(response, "{\"error\":true}");
-		}
-	}
-	
 	private Integer id;
 	private Actions action;
-	private String rids;
 	
 	public Integer getId() {
 		return id;
@@ -175,19 +162,14 @@ public class ActionsTg extends BaseTg {
 	public void setAction(Actions action) {
 		this.action = action;
 	}
+	private String actions;
 
-	/**
-	 * @return the rids
-	 */
-	public String getRids() {
-		return rids;
+	public String getActions() {
+		return actions;
 	}
 
-	/**
-	 * @param rids the rids to set
-	 */
-	public void setRids(String rids) {
-		this.rids = rids;
+	public void setActions(String actions) {
+		this.actions = actions;
 	}
 	
 }

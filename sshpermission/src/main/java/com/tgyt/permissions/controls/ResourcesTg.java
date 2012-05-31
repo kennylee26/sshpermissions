@@ -11,6 +11,7 @@ package com.tgyt.permissions.controls;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 
@@ -21,9 +22,12 @@ import org.springframework.stereotype.Controller;
 import com.tgyt.common.tools.json.FormatJSON;
 import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.controls.struts2.BaseTg;
+import com.tgyt.permissions.biz.IActionsService;
 import com.tgyt.permissions.biz.IResourcesService;
 import com.tgyt.permissions.biz.ISystemService;
+import com.tgyt.permissions.model.Actions;
 import com.tgyt.permissions.model.CloneResources;
+import com.tgyt.permissions.model.Resources;
 import com.tgyt.permissions.model.Systems;
 
 /** 
@@ -48,6 +52,9 @@ public class ResourcesTg extends BaseTg {
 	  */ 
 	@Autowired
 	private ISystemService systemService;
+	
+	@Autowired
+	private IActionsService actionsService;
 	/** 
 	  * @Title: index 
 	  * @Description:索引进入资源信息页面 
@@ -134,6 +141,27 @@ public class ResourcesTg extends BaseTg {
 			outJsonPlainString(response, "{\"error\":true}");
 		} 
 	}
+	
+	
+	public void saveActions(){
+		String[] strs=actions.split(",");
+		try {
+			Resources res=this.resourcesService.findById(id);
+			Set<Actions> resSet=res.getResActions();
+			resSet.clear();
+			for(int i=0;i<strs.length;i++){
+				Actions action=actionsService.findById(Integer.parseInt(strs[i]));
+				resSet.add(action);
+			}
+			res.setResActions(resSet);
+			this.resourcesService.alter(res);
+			outJsonPlainString(response, "{\"success\":true}");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outJsonPlainString(response, "{\"error\":true}");
+		} 
+	}
+	
 	
 	/** 
 	  * @Title: update 
@@ -234,5 +262,13 @@ public class ResourcesTg extends BaseTg {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	private String actions;
+	public String getActions() {
+		return actions;
+	}
+	public void setActions(String actions) {
+		this.actions = actions;
+	}
+	
 	
 }
