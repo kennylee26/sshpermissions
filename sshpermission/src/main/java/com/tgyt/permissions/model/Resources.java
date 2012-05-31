@@ -46,8 +46,7 @@ public class Resources  implements java.io.Serializable {
      private Integer orderid;
      private String memo;
      private Set<Resources> children = new HashSet<Resources>(0);
-     private Set<Actions> actions = new HashSet<Actions>(
- 			0);
+     private Set<Actions> resActions = new HashSet<Actions>(0);
 
 
     // Constructors
@@ -66,7 +65,7 @@ public class Resources  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public Resources(Integer id, Resources parent, Systems system, String name, String enname, String resourcetype, String link, String icon, String iconopen, String isopen, String isleaf, String status, Integer orderid, String memo, Set<Resources> children) {
+  /*  public Resources(Integer id, Resources parent, Systems system, String name, String enname, String resourcetype, String link, String icon, String iconopen, String isopen, String isleaf, String status, Integer orderid, String memo, Set<Resources> children) {
         this.id = id;
         this.parent = parent;
         this.system = system;
@@ -82,9 +81,18 @@ public class Resources  implements java.io.Serializable {
         this.orderid = orderid;
         this.memo = memo;
         this.children = children;
-    }
+    }*/
 
-   
+  
+
+	// Property accessors
+    @Id 
+    @Column(name="id", unique=true, nullable=false)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    public Integer getId() {
+        return this.id;
+    }
+    
     /** 
 	  * <p>Title: </p> 
 	  * <p>Description: </p> 
@@ -103,14 +111,14 @@ public class Resources  implements java.io.Serializable {
 	  * @param orderid
 	  * @param memo
 	  * @param children
-	  * @param resource 
+	  * @param resActions 
 	  */ 
 	
 	public Resources(Integer id, Resources parent, Systems system, String name,
 			String enname, String resourcetype, String link, String icon,
 			String iconopen, String isopen, String isleaf, String status,
 			Integer orderid, String memo, Set<Resources> children,
-			Set<Actions> actions) {
+			Set<Actions> resActions) {
 		super();
 		this.id = id;
 		this.parent = parent;
@@ -127,18 +135,10 @@ public class Resources  implements java.io.Serializable {
 		this.orderid = orderid;
 		this.memo = memo;
 		this.children = children;
-		this.actions = actions;
+		this.resActions = resActions;
 	}
 
-	// Property accessors
-    @Id 
-    @Column(name="id", unique=true, nullable=false)
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    public Integer getId() {
-        return this.id;
-    }
-    
-    public void setId(Integer id) {
+	public void setId(Integer id) {
         this.id = id;
     }
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -280,25 +280,29 @@ public class Resources  implements java.io.Serializable {
     }
 
 	/**
-	 * @return the resource
+	 * @return the resActions
 	 */
-	@ManyToMany(cascade=CascadeType.MERGE)
+    @ManyToMany(cascade={CascadeType.MERGE})
 	@JoinTable(
-			name="c_resource_action",//中间表名
-			joinColumns={@JoinColumn(name="resource_id")},//设置自己在中间表的对应外键
-			inverseJoinColumns={@JoinColumn(name="action_id")}//设置对方()在中间表的对应外键
-	)
-	public Set<Actions> getResource() {
-		return actions;
+			name="c_resource_action",
+			joinColumns={@JoinColumn(name="resource_id")},
+			inverseJoinColumns={@JoinColumn(name="action_id")}
+	) 
+	public Set<Actions> getResActions() {
+		return resActions;
 	}
 
 	/**
-	 * @param resource the resource to set
+	 * @param resActions the resActions to set
 	 */
-	public void setResource(Set<Actions> actions) {
-		this.actions = actions;
+	public void setResActions(Set<Actions> resActions) {
+		this.resActions = resActions;
 	}
-   
+
+	/**
+	 * @return the resource
+	 */
+  
     
 
 
