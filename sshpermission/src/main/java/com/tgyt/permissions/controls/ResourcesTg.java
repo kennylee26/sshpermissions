@@ -9,7 +9,8 @@
 
 package com.tgyt.permissions.controls;
 
-import java.io.File;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.tgyt.common.tools.json.FormatJSON;
 import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.permissions.biz.IActionsService;
@@ -143,6 +143,13 @@ public class ResourcesTg extends BaseTg {
 	}
 	
 	
+	/** 
+	  * @Title: saveActions 
+	  * @Description: 保存操作权限
+	  * @param     设定文件 
+	  * @return void    返回类型 
+	  * @throws 
+	  */
 	public void saveActions(){
 		String[] strs=actions.split(",");
 		try {
@@ -162,6 +169,27 @@ public class ResourcesTg extends BaseTg {
 		} 
 	}
 	
+	public void getSelectedAction(){
+		try {
+			Resources res=this.resourcesService.findById(id);
+			Set<Actions> resSet=res.getResActions();
+			StringBuilder str=new StringBuilder();
+			int i=0;
+			for (Actions object : resSet) {
+				if(i<resSet.size()-1){
+					str.append(object.getId().toString()+",");
+				}
+				else{
+					str.append(object.getId().toString());
+				}
+				i++;
+			}
+			System.out.println(str.toString());
+			outJsonPlainString(response, "{\"actionIds\":\""+str.toString()+"\"}");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
 	
 	/** 
 	  * @Title: update 

@@ -112,6 +112,35 @@
 			$('#dt-resources').datagrid('load',{});
 		}
 		var url;
+		function addaction(){
+			var row = $('#dt-resources').datagrid('getSelected');
+			if (row){
+				$('#addactions').combobox({url:'<c:url value="/permissions/actions/getItemActions.tg"/>',
+				    valueField:'id',
+				    textField:'name',
+				    multiple:'true'
+				});
+				 $.ajax({
+						type: "post",
+						dataType:"json",
+						url: '<c:url value="/permissions/resources/getSelectedActionResources.tg"/>',
+						data: "id="+row.id,
+						success: function (result) {
+							var temp=result.actionIds;
+							var arr=temp.split(",");
+								$('#addactions').combobox('setValues',arr);
+			            }
+						});
+				
+		$('#dlg1').dialog('setTitle','添加操作').dialog('open');
+
+			} else {
+				$.messager.show({
+					title:'提示',
+					msg:'请先选择系统资源，再进行修改。'
+				});
+			}
+		}
 		function newItem(){
 			url = '<c:url value="/permissions/resources/saveResources.tg"/>';
 			$('input[id="parentId"]').combotree({
@@ -233,6 +262,32 @@
 			});
 			
 		}
+		function saveAction(){
+			url="<c:url value='/permissions/resources/saveActionsResources.tg'/>";
+			var row = $('#dt-resources').datagrid('getSelected');
+			var actions=$("#addactions").combobox('getValues');
+			 $.ajax({
+				type: "post",
+				dataType:"json",
+				url: url,
+				data: "id="+row.id+"&actions="+actions,
+				 success: function(msg1){
+					$('#dlg1').dialog('close');
+					if(msg1.success == true){
+						$.messager.show({
+							title:'提示',
+							msg:'成功'
+						});
+					}else{
+						$.messager.show({
+							title:'提示',
+							msg:'失败'
+						});
+					}
+					
+				} //操作成功后的操作！msg是后台传过来的值 
+				});
+		}
 	</script>
 	
     </head>
@@ -247,6 +302,7 @@
 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a>
 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a>
+								<a href="javascript:addaction()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">添加操作</a>
 							</td>
 							<td style="text-align:right">
 								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a>
@@ -294,6 +350,14 @@
 				<div id="dlg-buttons" style="text-align:center">
 					<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
 					<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
+				</div>
+			</div>
+			<div id="dlg1" class="easyui-dialog" style="width:350px;height:200px;"
+					closed="true" modal="true" buttons="#dlg-buttons">
+				<div align="center" style="padding-top:20px;padding-bottom: 50px">添加操作：<input  id="addactions" name="addactions" /></div>
+				<div id="dlg-buttons1" style="text-align:center">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveAction()">保存</a>
+					<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')">关闭</a>
 				</div>
 			</div>
 		</div>
