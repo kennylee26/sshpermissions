@@ -91,6 +91,82 @@
 				});
 			}
 		}
+		function authorizate(){
+			var row = $('#dt-actions').datagrid('getSelected');
+			if (row){
+				initTree(row);
+				url = '<c:url value="/permissions/actions/saveAuthorizateActions.tg"/>?id='+row["id"];
+				row = JSON.stringify(row).replace(/\./g,"\\\\.");
+				$('#auth').dialog('setTitle','角色分配资源').dialog('open');
+			} else {
+				$.messager.show({
+					title:'注意',
+					msg:'请先选择操作，再进行选择。'
+				});
+			}
+		}
+		function saveAuthorizate(){
+			var nodes = $('#tt').tree('getChecked');
+			var s = '';
+			for(var i=0; i<nodes.length; i++){
+				if (s != '') s += ',';
+				s += nodes[i].id;
+			}
+			url = url+'&rids='+s;
+			var data = $('#authorization').form('submit',{
+				url:url,
+				onSubmit:function(){return true;},
+				success:function(data){
+					$('#auth').dialog('close');
+					data=eval('('+data+')');
+					if(data.success){
+						$.messager.show(
+							{
+								title:'提示',
+								msg:'操作成功！',
+								showType:'slide'
+							}
+						);
+					}
+					if(data.error){
+						$.messager.alert('警告','操作失败！','error');
+					}
+				}
+			});
+			
+		}
+		var url;
+		function initTree(row){
+			$('#tt').tree({
+				checkbox:true,
+				url: '<c:url value="/permissions/actions/getAllTreesActions.tg"/>?id='+row["id"],
+				onClick:function(node){
+					$(this).tree('toggle', node.target);
+					//alert('you dbclick '+node.text);
+				},
+				onContextMenu: function(e, node){
+					e.preventDefault();
+					$('#tt').tree('select', node.target);
+					$('#mm').menu('show', {
+						left: e.pageX,
+						top: e.pageY
+					});
+				},
+				toolbar:[{
+					text:'保存',
+					iconCls:'icon-add',
+					handler:function(){
+						saveAuthorizate();
+					}
+				},'-',{
+					text:'关闭',
+					iconCls:'icon-cancel',
+					handler:function(){
+						$('#auth').dialog('close');
+					}
+				}]
+			});	
+		}
 		function removeItem(){
 			var row = $('#dt-actions').datagrid('getSelected');
 			if (row){
@@ -161,6 +237,7 @@
 								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="action:modify" operationName="修改"/>
 								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="action:delete" operationName="删除"/>
 								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="action:refresh" operationName="刷新"/>
+								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a>
 <!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
 <!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
 <!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
@@ -201,6 +278,16 @@
 			<div id="dlg-buttons" style="text-align:center">
 				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
+			</div>
+		</div>
+		<div id="auth" class="easyui-dialog" style="width:350px;height:250px;"
+				closed="true" modal="true" buttons="#auth-buttons">
+			<form id="authorization" method="post">
+				<ul id="tt"></ul>
+			</form>
+			<div id="auth-buttons" style="text-align:center">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveAuthorizate()">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#auth').dialog('close')">关闭</a>
 			</div>
 		</div>
 	</div>

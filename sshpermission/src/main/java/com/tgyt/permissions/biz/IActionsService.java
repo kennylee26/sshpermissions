@@ -1,6 +1,7 @@
 package com.tgyt.permissions.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.service.ServiceInterface;
@@ -47,4 +48,23 @@ public interface IActionsService extends ServiceInterface<Actions> {
 	  * @throws 
 	  */
 	public List<Actions> getAll();
+	
+	/** 
+	  * @Title: getAllListTrees 
+	  * @Description:获得所有树节点。
+	  * @param @param actionId
+	  * @param @return
+	  * @return List<Map<String,Object>>
+	  * @throws 
+	  */
+	public List<Map<String,Object>> getAllListTrees(Integer actionId);
+	/** 
+	  * @Title: saveAuthorizate 
+	  * @Description: 保存节点
+	  * @param @param actionId
+	  * @param @param resourcesIds
+	  * @return void
+	  * @throws 
+	  */
+	public void saveAuthorizate(Integer actionId,String resourcesIds);
 }
