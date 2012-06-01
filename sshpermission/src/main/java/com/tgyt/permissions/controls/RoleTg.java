@@ -98,7 +98,7 @@ public class RoleTg extends BaseTg {
 			this.roleService.saveAuthorizate(id,rids);
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
-			
+			e.printStackTrace();
 			outJsonPlainString(response, "{\"error\":true}");
 		}
 	}

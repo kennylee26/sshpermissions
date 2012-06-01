@@ -38,6 +38,7 @@
 				//alert(rowIndex+"-"+JSON.stringify(rowData));
 				//$('#detailform').form('load',rowData);
 				//$('#detail').dialog('setTitle','更新角色信息').dialog('open');
+				$('#myform').formid('loadit',rowData);
 				$.each($('#myform input'),function(i){
     					$(this).attr("readonly","true");
     				});

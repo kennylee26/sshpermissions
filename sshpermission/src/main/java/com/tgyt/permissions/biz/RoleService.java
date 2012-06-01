@@ -120,7 +120,7 @@ public class RoleService extends BaseService<Role> implements IRoleService {
 		if(resourcesIds!=null &&!"".equals(resourcesIds)){
 			String[] rids = resourcesIds.split(",");
 			for(int i=0;i<rids.length;i++){
-				if(rids[i].indexOf(ISystemService.TREE_NAME)!=-1){
+				if(rids[i].indexOf(ISystemService.TREE_NAME)!=-1 ||rids[i].indexOf("TREES")!=-1){
 					continue;
 				}
 				Resources rs = this.resourcesDAO.findById(Integer.parseInt(rids[i]));
