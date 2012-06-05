@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tagEasyui" %>
 <head>
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>权限管理系统</title>
@@ -210,7 +211,136 @@
 				});
 			}
 		}
+		//=======================处理授权操作==================================================================
+		//使用自己生成的资源操作列表给角色分配操作
+		function resAct(){
+			var row = $('#dt-role').datagrid('getSelected');
+			if (row){
+			 	$("#dt-resAct").datagrid({
+					url:'<c:url value="/permissions/role/getResActMappingsRole.tg"/>?id='+row["id"]
+				});
+				url = '<c:url value="/permissions/role/saveResActionsRole.tg"/>?id='+row["id"];
+				$('#resAct').dialog('setTitle','资源分配操作').dialog('open');
+			} else {
+				$.messager.show({
+					title:'注意',
+					msg:'请先选择角色，再进行修改。'
+				});
+			}
+		}
+		//当点击第二列的checkbox时，将当前行的所有checkbox全选或全不选
+		function selectCurrentRow(select,id){
+			//查找id=resActForm下的所有checkbox，并选中或取消选中
+			$("#resActForm").find("input[type='checkbox']").each(function(index){
+				if(this.name.indexOf(id+":")==0){
+					this.checked = select;
+				}
+	        });
+		}
+		//系统列的formatter
+		function systemFormatter(value,rowData,rowIndex){
+			return value.name;
+		}
+		//资源列的formatter
+		function resourceFormatter(value,rowData,rowIndex){
+			return '<input type="checkbox" onchange="selectCurrentRow(this.checked,this.id);" id="'+value.id+'" name="'+value.ename+'"/>'+value.name;
+		}
+		//操作列的formatter
+		function actionsFormatter(value,rowData,rowIndex){
+// 			alert(JSON.stringify(value));
+			var ownActions = value.ownActions;
+			var allActions = value.allActions;
+			if(!!allActions && allActions.length>0){
+				var html = "";
+				for(var i=0;i<allActions.length;i++){
+					html+='<input type="checkbox" ';
+					if(!!ownActions && ownActions.indexOf(allActions[i].ename)!=-1){
+						html+=' checked="checked" ';
+					}
+					//在每个操作的name属性的格式为：资源id:操作ename
+					html+=' name="'+rowData.res.id+':'+allActions[i].ename+'"/>'+allActions[i].name;
+				}
+				return html;
+			}else{
+				return '<div style="color:red">该资源暂无操作</div>';
+			}
+		}
+		//保存授权操作
+		function saveResAct(){
+			var actions="";
+			//存储所有选择的操作
+			var allSelections = new Array();
+			//存储所有的资源
+			var allResources = new Array();
+			
+			$("#resActForm").find("input[type='checkbox']").each(function(index){
+				//如果name属性里面没有冒号的话，表示是资源，则存入资源数组
+				if(this.name.indexOf(":")==-1 ){
+					allResources[allResources.length] = this.id;
+				}else if(this.checked){
+					//不是资源数组并且被选中了，就存入操作数组
+					allSelections[allSelections.length] = this.name;
+				}
+	        });
+			//循环遍历资源数组，从操作数组中找出对应的操作依次加入actions变量中
+			for(var i=0;i<allResources.length;i++){
+				var flag=false;
+				for(var j=0;j<allSelections.length;j++){
+					//如果操作中包含资源ID，表示当前操作输入该资源，就顺序加入actions中
+					if(allSelections[j].indexOf(allResources[i]+":")==0){
+						flag=true;
+						actions+=allSelections[j]+",";
+					}
+				}
+				if(flag){
+					actions=actions.substring(0,actions.length-1)+";";
+				}
+			}
+			$.getJSON(url, { roleActions: actions }, function(json){
+				$('#resAct').dialog('close');
+				if(json.success){
+					$.messager.show(
+						{
+							title:'提示',
+							msg:'操作成功！',
+							showType:'slide'
+						}
+					);
+				}
+				if(json.error){
+					$.messager.alert('警告','操作失败！','error');
+				}
+			});
+// 			var data = $('#resActForm').form('submit',{
+// 				url:url,
+// 				onSubmit:function(){return true;},
+// 				success:function(data){
+// 					$('#resAct').dialog('close');
+// 					data=eval('('+data+')');
+// 					if(data.success){
+// 						$.messager.show(
+// 							{
+// 								title:'提示',
+// 								msg:'操作成功！',
+// 								showType:'slide'
+// 							}
+// 						);
+// 					}
+// 					if(data.error){
+// 						$.messager.alert('警告','操作失败！','error');
+// 					}
+// 				}
+// 			});
+			
+		}
+		
+		//=========================================================================================
+		
+		//原来用treegrid的时候的保存操作的方法
 		function saveResActions(){
+// 			alert(JSON.stringify($("#dt-resAct").datagrid("getRows")));
+// 			alert($("#resActForm").html());
+// 			return;
 			var actions="";
 			for(var i=1;i<$("#tgActions tr").length;i++){
 				var flag=false;
@@ -388,15 +518,25 @@
 					<table cellpadding="0" cellspacing="0" style="width:95%;height=30px;">
 						<tr>
 							<td>
-								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
-								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
-								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a>
-								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a>
+								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="role:add" operationName="新增"/>
+								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="role:modify" operationName="修改"/>
+								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="role:delete" operationName="删除"/>
+								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="role:refresh" operationName="刷新"/>
+								<tgEasyui:easyuiButton iconCls="icon-search" method="authorizate()" permission="role:assignResource" operationName="分配资源"/>
+								<tgEasyui:easyuiButton iconCls="icon-search" method="resAct()" permission="role:assignAction" operationName="分配操作"/>
+<!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
+<!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
+<!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
+<!-- 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> -->
 								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a>
-								<a href="javascript:resActions()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a>
+								<a href="javascript:resAct()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a>
+
+
+<!-- 								<a href="javascript:resActions()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a> -->
 							</td>
 							<td style="text-align:right">
-								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a>
+							<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="role:advanceQuery" operationName="高级查询"/>
+<!-- 								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a> -->
 							</td>
 						</tr>
 					</table>
@@ -447,6 +587,26 @@
 			<div id="actions-buttons" style="text-align:center">
 				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveResActions()">保存</a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#ac').dialog('close')">关闭</a>
+			</div>
+		</div>
+		<div id="resAct" class="easyui-dialog" style="width:900px;height:500px;"
+				closed="true" modal="true" buttons="#resAct-buttons">
+			<form id="resActForm" method="post">
+<!-- 				<div id="resActDiv"></div> -->
+				<table id="dt-resAct"  border="false" singleSelect="true" 
+						rownumbers="true"  checkbox="true">
+					<thead>
+						<tr>
+							<th field="sys" width="100" formatter="systemFormatter">系统名称</th>
+							<th field="res" width="100" formatter="resourceFormatter">资源名称</th>
+							<th field="acts" width="630" formatter="actionsFormatter">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</form>
+			<div id="resAct-buttons" style="text-align:center">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveResAct()">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#resAct').dialog('close')">关闭</a>
 			</div>
 		</div>
 		<div id="detail" class="easyui-dialog" style="width:350px;height:430px;"

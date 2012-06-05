@@ -95,6 +95,25 @@ public class ActionsTg extends BaseTg {
 			e.printStackTrace();
 		}
 	}
+	public void getAllItem(){
+		List<Actions> actions = this.actionsService.getAll();
+		String  str="";
+		JsonConfig config = new JsonConfig();   
+		config.setIgnoreDefaultExcludes(false);      
+		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);    
+		// config.registerJsonValueProcessor(Date.class,new DateJsonValueProcessor("yyyy-MM-dd")); //date processor register   
+		config.setExcludes(new String[]{//只要设置这个数组，指定过滤哪些字段。   
+				"resource"
+		}); 
+		str = JSONSerializer.toJSON(actions,config).toString();
+		System.out.println(str);
+		try {
+			outJsonString(response,str);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/** 
 	  * @Title: save 
 	  * @Description:保存一条操作信息记录 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-
+<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tagEasyui" %>
 <head>
 	 <jsp:include page="head.jsp"></jsp:include>
 </head>
@@ -12,10 +12,14 @@
 	<div class="easyui-layout" fit="true">
 		<div region="north" border="false">
 			<div class="toolbar">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增用户</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改用户</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除用户</a>
-				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询用户</a>
+				<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="users:add" operationName="新增"/>
+				<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="users:modify" operationName="修改"/>
+				<tgEasyui:easyuiButton iconCls="icon-cancel" method="delItem()" permission="users:delete" operationName="删除"/>
+				<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="users:query" operationName="查询常量"/>
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增用户</a> -->
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改用户</a> -->
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除用户</a> -->
+<!-- 				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询用户</a> -->
 			</div>
 		</div>
 		

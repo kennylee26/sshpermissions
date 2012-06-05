@@ -143,10 +143,10 @@
 					<table cellpadding="0" cellspacing="0" style="width:95%">
 						<tr>
 							<td>
-								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="action:add" operationName="新增"/>
-								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="action:modify" operationName="修改"/>
-								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="action:delete" operationName="删除"/>
-								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="action:refresh" operationName="刷新"/>
+								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="arguments:add" operationName="新增"/>
+								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="arguments:modify" operationName="修改"/>
+								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="arguments:delete" operationName="删除"/>
+								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="arguments:refresh" operationName="刷新"/>
 <!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
 <!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
 <!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->

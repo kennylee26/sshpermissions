@@ -10,7 +10,11 @@
 package com.tgyt.permissions.biz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +34,13 @@ import com.tgyt.framework.dao.hspring.DAOInterface;
 import com.tgyt.framework.service.BaseService;
 import com.tgyt.permissions.dao.ActionsDAO;
 import com.tgyt.permissions.dao.ResourcesDAO;
+import com.tgyt.permissions.dao.RoleAuthDao;
 import com.tgyt.permissions.dao.SystemDao;
 import com.tgyt.permissions.model.Actions;
 import com.tgyt.permissions.model.CloneResources;
 import com.tgyt.permissions.model.Resources;
+import com.tgyt.permissions.model.Role;
+import com.tgyt.permissions.model.RoleAuth;
 import com.tgyt.permissions.model.Systems;
 import com.tgyt.tree.easyui.EasyuiTreeBuilder;
 
@@ -53,7 +60,11 @@ public class ResourcesService extends BaseService<Resources> implements
 	  */ 
 	@Resource(name="resourcesDAO")
 	private ResourcesDAO resourcesDAO;
-	
+	/** 
+	  * @Fields roleAuthDao : 角色资源服务DAO 
+	  */
+	@Resource(name="roleAuthDao")
+	private RoleAuthDao roleAuthDao;
 	/** 
 	  * @Fields systemDao : 系统操作DAO 
 	  */ 
@@ -610,5 +621,149 @@ public class ResourcesService extends BaseService<Resources> implements
 		return nodes;
 	}
 
+	/**
+	 * 
+	  * @Title: getRoleResActMappings 
+	  * @Description: 获得指定角色的资源操作集合
+	  * @param @param role
+	  * @param @return
+	  * @return List<Map<String,Object>>
+	  * @throws
+	 */
+	public List<Map<String, Object>> getRoleResActMappings(Role role) {
+		//存放资源节点
+		List<Map<String,Object>> nodes = new ArrayList<Map<String,Object>>();
+		//查出系统总数
+		List<Systems> systems = this.systemDao.findList("from Systems sys order by sys.id");
+		List<Map<String, Object>> all = new ArrayList<Map<String, Object>>();
+		//创建资源集合，存储当前角色所有的资源
+		List<Object> resources = new ArrayList<Object>();
+		resources.addAll(Arrays.asList(role.getResources().toArray()));
+		//循环遍历每个系统的资源
+		for(Iterator<Systems> iter=systems.iterator();iter.hasNext();){
+			//声明临时变量，用来存储当前系统所对应的资源
+			Map<String,Object> sys = new HashMap<String,Object>();
+			Systems system = iter.next();
+			//当前系统的名称
+			sys.put("name", system.getName());
+			//当前系统的英文名称
+			sys.put("ename", system.getEname());
+			
+			//声明当前角色在当前系统中所拥有的资源
+			List<Map<String,Object>> children = new ArrayList<Map<String,Object>>();
+			//遍历每个资源
+			for(Iterator res=resources.iterator();res.hasNext();){
+				Resources temp = (Resources)res.next();
+				//如果当前资源所属系统跟当前循环的系统相同
+				if(temp.getSystem().getId() == system.getId() &&temp.getChildren().size()==0){
+					
+					//存放当前资源
+					Map<String,Object> resource = new HashMap<String,Object>();
+					resource.put("name", temp.getName());
+					resource.put("ename", temp.getEnname());
+					resource.put("id", temp.getId());
+					
+					List<Map<String,Object>> allActions = new ArrayList<Map<String,Object>>();
+					//遍历当前资源的所有操作
+					for(Iterator<Actions> acts=temp.getResActions().iterator();acts.hasNext();){
+						Map<String,Object> act = new HashMap<String,Object>();
+						Actions action = acts.next();
+						act.put("name", action.getName());
+						act.put("ename", action.getEnname());
+						//将当前操作放入集合
+						allActions.add(act);
+					}
+					
+					RoleAuth auth = this.roleAuthDao.find("from RoleAuth where roleId ="+role.getId()+" and resourceId ="+temp.getId());
+					//存放当前资源所拥有的所有操作信息
+					Map<String,Object> actions = new HashMap<String,Object>();
+					//当前资源所拥有的操作
+					actions.put("allActions", allActions);
+					//当前角色对该资源所拥有的操作
+					actions.put("ownActions", (auth!=null? auth.getActions():null));
+					
+					
+					//用来存放一条资源记录
+					Map<String,Object> item = new HashMap<String,Object>();
+					item.put("sys", sys);
+					item.put("res", resource);
+					item.put("acts", actions);
+					//删除当前迭代中的资源
+//					res.remove();
+					all.add(item);
+				}
+			}
+		}
+		
+		return all;
+	}
 	
+//	/**
+//	 * 
+//	 * @Title: getRoleResActMappings 
+//	 * @Description: 获得指定角色的资源操作集合
+//	 * @param @param role
+//	 * @param @return
+//	 * @return List<Map<String,Object>>
+//	 * @throws
+//	 */
+//	public List<Map<String, Object>> getRoleResActMappings(Role role) {
+//		//存放资源节点
+//		List<Map<String,Object>> nodes = new ArrayList<Map<String,Object>>();
+//		//查出系统总数
+//		List<Systems> systems = this.systemDao.findList("from Systems");
+//		List<Map<String, Object>> all = new ArrayList<Map<String, Object>>();
+//		//创建资源集合，存储当前角色所有的资源
+//		Set resources = new HashSet();
+//		resources.addAll(Arrays.asList(role.getResources().toArray()));
+//		//循环遍历每个系统的资源
+//		for(Iterator<Systems> iter=systems.iterator();iter.hasNext();){
+//			//声明临时变量，用来存储当前系统所对应的资源
+//			Map<String,Object> item = new HashMap<String,Object>();
+//			Systems system = iter.next();
+//			//当前系统的名称
+//			item.put("name", system.getName());
+//			//当前系统的英文名称
+//			item.put("ename", system.getEname());
+//			//声明当前角色在当前系统中所拥有的资源
+//			List<Map<String,Object>> children = new ArrayList<Map<String,Object>>();
+//			//遍历每个资源
+//			for(Iterator res=resources.iterator();res.hasNext();){
+//				Resources temp = (Resources)res.next();
+//				//如果当前资源所属系统跟当前循环的系统相同
+//				if(temp.getSystem().getId() == system.getId()){
+//					//存放当前资源
+//					Map<String,Object> child = new HashMap<String,Object>();
+//					child.put("name", temp.getName());
+//					child.put("ename", temp.getEnname());
+//					//存放操作的集合
+//					List<Map<String,Object>> actions = new ArrayList<Map<String,Object>>();
+//					//遍历当前资源的所有操作
+//					for(Iterator<Actions> acts=temp.getResActions().iterator();acts.hasNext();){
+//						Map<String,Object> act = new HashMap<String,Object>();
+//						Actions action = acts.next();
+//						act.put("name", action.getName());
+//						act.put("ename", action.getEnname());
+//						//存放当前操作信息
+//						actions.add(act);
+//					}
+//					RoleAuth auth = this.roleAuthDao.find("from RoleAuth where roleId ="+role.getId()+" and resourceId ="+temp.getId());
+//					//当前角色对该资源所拥有的操作
+//					child.put("auth",(auth!=null? auth.getActions():null));
+//					//存放当前资源所拥有的所有操作信息
+//					child.put("actions", actions);
+//					children.add(child);
+//					//删除当前迭代中的资源
+//					res.remove();
+//					
+//				}
+//			}
+//			//存放当前系统所拥有的资源信息
+//			item.put("resources", children);
+//			//将当前系统加入集合
+//			all.add(item);
+//		}
+//		
+//		return all;
+//	}
 }

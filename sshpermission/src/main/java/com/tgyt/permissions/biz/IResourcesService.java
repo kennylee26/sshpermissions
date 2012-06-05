@@ -19,6 +19,7 @@ import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.service.ServiceInterface;
 import com.tgyt.permissions.model.CloneResources;
 import com.tgyt.permissions.model.Resources;
+import com.tgyt.permissions.model.Role;
 import com.tgyt.permissions.model.Systems;
 
 /** 
@@ -175,6 +176,16 @@ public interface IResourcesService extends ServiceInterface<Resources> {
 	  */
 	public List<Map<String,Object>> getRoleRAMappings(Integer roleId,Set<Resources> resources);
 	
+	/**
+	 * 
+	  * @Title: getRoleResActMappings 
+	  * @Description: 获得指定角色的资源操作集合
+	  * @param @param role
+	  * @param @return
+	  * @return List<Map<String,Object>>
+	  * @throws
+	 */
+	public List<Map<String, Object>> getRoleResActMappings(Role role);
 	/** 
 	  * @Title: getAll 
 	  * @Description: 获得所有资源信息记录集合

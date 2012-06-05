@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -26,11 +25,13 @@ import com.tgyt.framework.dao.hspring.DAOInterface;
 import com.tgyt.framework.service.BaseService;
 import com.tgyt.permissions.dao.ActionsDAO;
 import com.tgyt.permissions.dao.ResourcesDAO;
+import com.tgyt.permissions.dao.RoleAuthDao;
 import com.tgyt.permissions.dao.RoleDao;
 import com.tgyt.permissions.dao.SystemDao;
 import com.tgyt.permissions.model.Actions;
 import com.tgyt.permissions.model.Resources;
 import com.tgyt.permissions.model.Role;
+import com.tgyt.permissions.model.RoleAuth;
 import com.tgyt.permissions.model.Systems;
 
 /** 
@@ -48,6 +49,9 @@ public class RoleService extends BaseService<Role> implements IRoleService {
 	
 	@Resource(name="actionsDAO")
 	private ActionsDAO actionsDAO;
+	
+	@Resource(name="roleAuthDao")
+	private RoleAuthDao roleAuthDao;
 	
 	/** 
 	  * @Fields resourcesDAO : 资源服务DAO 
@@ -235,15 +239,33 @@ public List<Map<String,Object>> getAllListTrees(Integer roleId) {
 	}
 	
 	public void saveResActions(Integer roleId,String resActions){
-		this.executeSql("update c_roleauth set actions='' where roleid="+roleId);
+		List<RoleAuth> roleAuth = this.roleAuthDao.findList("from RoleAuth where resourceId ="+roleId);
+		if(roleAuth!=null && roleAuth.size()>0){
+			for(Iterator<RoleAuth> iter=roleAuth.iterator();iter.hasNext();){
+				RoleAuth temp = iter.next();
+				temp.setActions("");
+				this.roleAuthDao.alter(temp);
+			}
+		}
 		if(resActions!=null && !"".equals(resActions)){
 			String actions[] = resActions.split(";");
 			for(int i=0;i<actions.length;i++){
 				String resourceId = actions[i].substring(0,actions[i].indexOf(":"));
 				Resources resource = this.resourcesDAO.findById(Integer.parseInt(resourceId));
-				String temp = actions[i].substring(0, actions[i].length()-1).replaceAll(resourceId, resource.getEnname());
-				this.executeSql("update c_roleauth set actions='"+temp+
-						"' where roleid="+roleId+" and resourceid="+resourceId);
+				String temp = actions[i].substring(0, actions[i].length()).replaceAll(resourceId, resource.getEnname());
+				RoleAuth auth = this.roleAuthDao.find("from RoleAuth where roleid="+roleId+" and resourceid="+resourceId);
+				if(auth==null){
+					auth = new RoleAuth();
+					auth.setResourceId(Integer.parseInt(resourceId));
+					auth.setRoleId(roleId);
+					auth.setActions(temp);
+					this.roleAuthDao.alter(auth);
+				}else{
+					auth.setActions(temp);
+					this.roleAuthDao.save(auth);
+				}
+//				this.executeSql("update c_roleauth set actions='"+temp+
+//						"' where roleid="+roleId+" and resourceid="+resourceId);
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-
+<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tagEasyui" %>
 <head>
 	 <jsp:include page="head.jsp"></jsp:include>
 </head>
@@ -13,10 +13,14 @@
 		<div region="north" border="false">
 			<div class="subtitle">系统信息</div>
 			<div class="toolbar">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增系统</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改系统</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除系统</a>
-				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询系统</a>
+				<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="system:add" operationName="新增"/>
+				<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="system:modify" operationName="修改"/>
+				<tgEasyui:easyuiButton iconCls="icon-cancel" method="delItem()" permission="system:delete" operationName="删除"/>
+				<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="system:query" operationName="查询常量"/>
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增系统</a> -->
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改系统</a> -->
+<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除系统</a> -->
+<!-- 				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询系统</a> -->
 			</div>
 		</div>
 		
