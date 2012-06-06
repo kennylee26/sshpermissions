@@ -528,8 +528,8 @@
 <!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
 <!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
 <!-- 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> -->
-								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a>
-								<a href="javascript:resAct()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a>
+<!-- 								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a> -->
+<!-- 								<a href="javascript:resAct()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a> -->
 
 
 <!-- 								<a href="javascript:resActions()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a> -->
