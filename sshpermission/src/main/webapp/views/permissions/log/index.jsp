@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tagEasyui" %>
+<%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tgEasyui" %>
 <head>
   <jsp:include page="head.jsp"></jsp:include>
 </head>
@@ -17,8 +17,8 @@
 							&nbsp;&nbsp;日志信息列表&nbsp;&nbsp;
 						</td>
 						<td style="text-align:right">
-							<tgEasyui:easyuiButton iconCls="icon-search" method="lookLog()" permission="group:detail" operationName="查看"/>
-							<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="group:advanceQuery" operationName="高级查询"/>
+							<tgEasyui:easyuiButton iconCls="icon-search" method="lookLog()" permission="log:detail" operationName="查看"/>
+							<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="log:advanceQuery" operationName="高级查询"/>
 				
 <!-- 							<a href="javascript:lookLog()" class="easyui-linkbutton" plain="true">查看日志</a> -->
 <!-- 							<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a> -->
