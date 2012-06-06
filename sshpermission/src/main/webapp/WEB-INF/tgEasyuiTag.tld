@@ -17,21 +17,37 @@
 			<name>iconCls</name> 
 			<required>false</required> 
 			<rtexprvalue>false</rtexprvalue> 
+			<description>easyui的图标class</description>
 		</attribute> 
 		<attribute> 
 			<name>method</name> 
 			<required>false</required> 
 			<rtexprvalue>false</rtexprvalue> 
+			<description>按钮调用的js函数</description>
 		</attribute> 
 		<attribute> 
 			<name>permission</name> 
 			<required>true</required> 
 			<rtexprvalue>false</rtexprvalue> 
+			<description>按钮的访问权限</description>
 		</attribute> 
 		<attribute> 
 			<name>operationName</name> 
 			<required>true</required> 
 			<rtexprvalue>false</rtexprvalue> 
+			<description>按钮显示的操作名称</description>
+		</attribute> 
+		<attribute> 
+			<name>type</name> 
+			<required>false</required> 
+			<rtexprvalue>false</rtexprvalue> 
+			<description>按钮的类型</description>
+		</attribute> 
+		<attribute> 
+			<name>imgSrc</name> 
+			<required>false</required> 
+			<rtexprvalue>false</rtexprvalue> 
+			<description>图片按钮的图片类型</description>
 		</attribute> 
 	</tag> 
 </taglib>

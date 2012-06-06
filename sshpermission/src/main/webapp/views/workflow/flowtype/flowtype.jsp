@@ -174,11 +174,18 @@
 		}
 		function formatTypeResult(value,rowData){
 // 			var c = '<a href="#" onclick="showFlow('+rowData.flowid+','+rowData.typeid+')">查看</a>&nbsp;&nbsp;<a href="#" onclick="flag('+rowData.id+')">标识</a>';
-			var c = '<img src=\"<c:url value="/icons/2.png"/>\" title="编辑" style="cursor: pointer; "  onclick="showFlow('+rowData.flowid+','+rowData.typeid+')"/>&nbsp;&nbsp;';
+// 			var c = '<img src=\"<c:url value="/icons/2.png"/>\" title="编辑" style="cursor: pointer; "  onclick="showFlow('+rowData.flowid+','+rowData.typeid+')"/>&nbsp;&nbsp;';
+// 			if(rowData.flag=="启用"){
+// 				c +='<img src=\"<c:url value="/icons/3.png"/>\" title="启用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+// 			}else{
+// 				c +='<img src=\"<c:url value="/icons/4.png"/>\" title="禁用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+// 			}
+			var path = '<c:url value="/icons/"/>';
+			var c = '<tgEasyui:easyuiButton type="imageButton" imgSrc="'+path+'2.png" method="showFlow('+rowData.flowid+','+rowData.typeid+')" permission="flowtype:edit" operationName="编辑"/>&nbsp;&nbsp;';
 			if(rowData.flag=="启用"){
-				c +='<img src=\"<c:url value="/icons/3.png"/>\" title="启用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+				c +='<tgEasyui:easyuiButton type="imageButton" imgSrc="'+path+'3.png" method="flag('+rowData.id+')" permission="flowtype:enable" operationName="启用"/>';
 			}else{
-				c +='<img src=\"<c:url value="/icons/4.png"/>\" title="禁用" style="cursor: pointer; "  onclick="flag('+rowData.id+')"/>'
+				c +='<tgEasyui:easyuiButton type="imageButton" imgSrc="'+path+'4.png" method="flag('+rowData.id+')" permission="flowtype:disable" operationName="禁用"/>';
 			}
 			return c;
 		}

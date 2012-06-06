@@ -27,6 +27,8 @@ import org.apache.shiro.subject.Subject;
 @SuppressWarnings("serial")
 public class TgEasyuiButtonTag extends TagSupport{
 
+	public static String EASYUIBUTTON = "easyuiButton";
+	public static String IMAGEBUTTON = "imageButton";
 	//easyui按钮对应的图标class
 	private String iconCls = "";
 	//按钮对应的js函数名称
@@ -35,8 +37,27 @@ public class TgEasyuiButtonTag extends TagSupport{
 	private String permission = "";
 	//按钮显示的操作名称
 	private String operationName = "";
+	//要生成按钮的类型，默认为easyui的按钮类型
+	private String type = EASYUIBUTTON;
+	//生成图片按钮时的图片链接
+	private String imgSrc = "";
 	
-	
+	public String getImgSrc() {
+		return imgSrc;
+	}
+
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getOperationName() {
 		return operationName;
 	}
@@ -81,21 +102,12 @@ public class TgEasyuiButtonTag extends TagSupport{
 		if(!"".equals(this.permission)){
 			Subject subject = SecurityUtils.getSubject();
 			if(subject.isPermitted(this.permission)){
-
-				StringBuffer buffer = new StringBuffer("<a class='easyui-linkbutton'  plain='true' ");
-				if(!"".equals(this.method)){
-					buffer.append(" href='javascript:"+this.method+"' ");
-				}
-				if(!"".equals(this.iconCls)){
-					buffer.append(" iconCls='"+this.iconCls+"' ");
-				}
-				buffer.append(" >");
-				if(!"".equals(this.operationName)){
-					buffer.append(this.operationName);
-				}
-				buffer.append(" </a> ");
 				try {
-					pageContext.getOut().println(buffer.toString());
+					if(EASYUIBUTTON.equals(type)){
+						pageContext.getOut().println(createEasyuiButton());
+					}else if(IMAGEBUTTON.equals(type)){
+						pageContext.getOut().print(createImageButton());
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -105,4 +117,53 @@ public class TgEasyuiButtonTag extends TagSupport{
 		return SKIP_BODY;
 	}
 
+	/**
+	 * 
+	  * @Title: createEasyuiButton 
+	  * @Description: 生成easyui的button
+	  * @param @return
+	  * @return String
+	  * @throws
+	 */
+	private String createEasyuiButton(){
+		StringBuffer buffer = new StringBuffer("<a class='easyui-linkbutton'  plain='true' ");
+		if(!"".equals(this.method)){
+			buffer.append(" href='javascript:"+this.method+"' ");
+		}
+		if(!"".equals(this.iconCls)){
+			buffer.append(" iconCls='"+this.iconCls+"' ");
+		}
+		buffer.append(" >");
+		if(!"".equals(this.operationName)){
+			buffer.append(this.operationName);
+		}
+		buffer.append(" </a> ");
+		return buffer.toString();
+	}
+	/**
+	 * 
+	  * @Title: createImageButton 
+	  * @Description: 生成图片按钮 
+	  * @param @return
+	  * @return String
+	  * @throws
+	 */
+	private String createImageButton(){
+		    
+		if(!"".equals(this.imgSrc)){
+			StringBuffer buffer = new StringBuffer("<img style=\"cursor: pointer;\"  ");
+			if(!"".equals(this.method)){
+				buffer.append(" onclick=\""+this.method+"\" ");
+			}
+				buffer.append(" src=\""+this.imgSrc+"\" ");
+			if(!"".equals(this.operationName)){
+				buffer.append(" title=\""+this.operationName+"\" ");
+			}
+			buffer.append(" /> ");
+			return buffer.toString();
+		}else{
+			return "";
+		}
+			
+	}
 }
