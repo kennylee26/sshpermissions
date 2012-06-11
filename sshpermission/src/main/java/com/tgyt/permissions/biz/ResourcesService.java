@@ -639,6 +639,12 @@ public class ResourcesService extends BaseService<Resources> implements
 		//创建资源集合，存储当前角色所有的资源
 		List<Object> resources = new ArrayList<Object>();
 		resources.addAll(Arrays.asList(role.getResources().toArray()));
+		//将最后资源结果排序
+		Collections.sort(resources, new Comparator<Object>(){
+			public int compare(Object o1, Object o2) {
+				return ((Resources)o1).getOrderid() - ((Resources)o2).getOrderid();
+			}
+		});
 		//循环遍历每个系统的资源
 		for(Iterator<Systems> iter=systems.iterator();iter.hasNext();){
 			//声明临时变量，用来存储当前系统所对应的资源
@@ -664,10 +670,20 @@ public class ResourcesService extends BaseService<Resources> implements
 					resource.put("id", temp.getId());
 					
 					List<Map<String,Object>> allActions = new ArrayList<Map<String,Object>>();
+					
+					//创建所有资源的操作集合，存储当前资源所有的操作
+					List<Object> allActionsList = new ArrayList<Object>();
+					allActionsList.addAll(Arrays.asList(temp.getResActions().toArray()));
+					//将最后操作结果排序
+					Collections.sort(allActionsList, new Comparator<Object>(){
+						public int compare(Object o1, Object o2) {
+							return ((Actions)o1).getId() - ((Actions)o2).getId();
+						}
+					});
 					//遍历当前资源的所有操作
-					for(Iterator<Actions> acts=temp.getResActions().iterator();acts.hasNext();){
+					for(Iterator<Object> acts=allActionsList.iterator();acts.hasNext();){
 						Map<String,Object> act = new HashMap<String,Object>();
-						Actions action = acts.next();
+						Actions action = (Actions)acts.next();
 						act.put("name", action.getName());
 						act.put("ename", action.getEnname());
 						//将当前操作放入集合

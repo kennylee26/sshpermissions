@@ -205,12 +205,12 @@ public class RoleTg extends BaseTg {
 				outJsonString(response,"[]");
 			}
 			List<Map<String, Object>> list = this.resourcesService.getRoleResActMappings(role);
-			//将最后结果排序
-			Collections.sort(list, new Comparator<Map<String, Object>>(){
-				public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-					return ((Integer)((Map<String, Object>)o1.get("res")).get("id"))-((Integer)((Map<String, Object>)o1.get("res")).get("id"));
-				}
-			});
+//			//将最后结果排序
+//			Collections.sort(list, new Comparator<Map<String, Object>>(){
+//				public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+//					return ((Integer)((Map<String, Object>)o1.get("res")).get("id"))-((Integer)((Map<String, Object>)o1.get("res")).get("id"));
+//				}
+//			});
 
 			JSONArray json = JSONArray.fromObject(list);
 //			outJsonString(response,json.toString());
