@@ -9,8 +9,6 @@
 
 package com.tgyt.permissions.controls;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.tgyt.common.tools.json.FormatJSON;
 import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.permissions.biz.IResourcesService;
 import com.tgyt.permissions.biz.IRoleService;
-import com.tgyt.permissions.model.Resources;
 import com.tgyt.permissions.model.Role;
 
 /** 
@@ -205,18 +201,10 @@ public class RoleTg extends BaseTg {
 				outJsonString(response,"[]");
 			}
 			List<Map<String, Object>> list = this.resourcesService.getRoleResActMappings(role);
-//			//将最后结果排序
-//			Collections.sort(list, new Comparator<Map<String, Object>>(){
-//				public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-//					return ((Integer)((Map<String, Object>)o1.get("res")).get("id"))-((Integer)((Map<String, Object>)o1.get("res")).get("id"));
-//				}
-//			});
 
 			JSONArray json = JSONArray.fromObject(list);
-//			outJsonString(response,json.toString());
 			outJsonPlainString(response,"{\"total\":" + list.size() + ",\"rows\":"+json.toString() + "}");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			outJsonPlainString(response,"{\"total\":0,\"rows\":[]}");
 		}

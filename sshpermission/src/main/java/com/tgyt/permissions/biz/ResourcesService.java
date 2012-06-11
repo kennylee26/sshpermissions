@@ -631,8 +631,6 @@ public class ResourcesService extends BaseService<Resources> implements
 	  * @throws
 	 */
 	public List<Map<String, Object>> getRoleResActMappings(Role role) {
-		//存放资源节点
-		List<Map<String,Object>> nodes = new ArrayList<Map<String,Object>>();
 		//查出系统总数
 		List<Systems> systems = this.systemDao.findList("from Systems sys order by sys.id");
 		List<Map<String, Object>> all = new ArrayList<Map<String, Object>>();
@@ -655,10 +653,8 @@ public class ResourcesService extends BaseService<Resources> implements
 			//当前系统的英文名称
 			sys.put("ename", system.getEname());
 			
-			//声明当前角色在当前系统中所拥有的资源
-			List<Map<String,Object>> children = new ArrayList<Map<String,Object>>();
 			//遍历每个资源
-			for(Iterator res=resources.iterator();res.hasNext();){
+			for(Iterator<Object> res=resources.iterator();res.hasNext();){
 				Resources temp = (Resources)res.next();
 				//如果当前资源所属系统跟当前循环的系统相同
 				if(temp.getSystem().getId() == system.getId() &&temp.getChildren().size()==0){
@@ -705,7 +701,7 @@ public class ResourcesService extends BaseService<Resources> implements
 					item.put("res", resource);
 					item.put("acts", actions);
 					//删除当前迭代中的资源
-//					res.remove();
+					res.remove();
 					all.add(item);
 				}
 			}
