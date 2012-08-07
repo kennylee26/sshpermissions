@@ -53,16 +53,13 @@ public class TArticleDao extends BaseDAO<TArticle>{
 		List<TArticle> tArticlesList =  this.findList("from TArticle");
 		for(TArticle tArticle : tArticlesList){
 			Document document = new Document();
-			if(tArticle.getArticleTitle() != null){
+			if(tArticle.getArticleTitle() != null&&tArticle.getId().toString() != null&&tArticle.getArticleContent() != null){
 				// 文件名,可查询,分词,存储到索引库记录中
 				document.add(new Field("title",tArticle.getArticleTitle(), Store.YES,
 						Index.ANALYZED));
-			}else if(tArticle.getId().toString() != null){
-				
 				// 文件路径,可查询,不分词,存储到索引库记录中
 				document.add(new Field("id", tArticle.getId().toString(), Store.YES,
 						Index.NOT_ANALYZED));
-			}else if(tArticle.getArticleContent() != null){
 				// 大文本内容,可查询,不存储,实际上可根据文件路径去找到真正的文本内容
 				// document.add(new Field("content",new FileReader(file)));
 				
