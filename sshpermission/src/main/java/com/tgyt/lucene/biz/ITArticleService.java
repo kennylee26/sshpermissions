@@ -27,5 +27,6 @@ import com.tgyt.permissions.model.Actions;
  */
 public interface ITArticleService extends ServiceInterface<TArticle>{
 	public void createIndex();
+	public List<Document> searchIndex(String keyword,String indexDirPath);
 
 }

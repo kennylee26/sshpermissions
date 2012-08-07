@@ -19,6 +19,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.queryParser.ParseException;
 import org.springframework.stereotype.Service;
 
 import com.tgyt.framework.dao.hspring.DAOInterface;
@@ -26,6 +27,7 @@ import com.tgyt.framework.service.BaseService;
 import com.tgyt.lucene.dao.TArticleDao;
 import com.tgyt.lucene.model.TArticle;
 import com.tgyt.lucene.util.Indexer;
+import com.tgyt.lucene.util.Searcher;
 
 /** 
  * @ClassName: TArticleService 
@@ -64,6 +66,22 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Document> searchIndex(String keyword,String indexDirPath) {
+		// TODO Auto-generated method stub
+		try {
+			 List<Document> docs = Searcher.search(keyword, "c:\\index");
+			 return docs;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	
