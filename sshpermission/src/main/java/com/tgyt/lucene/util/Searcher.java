@@ -43,7 +43,7 @@ public class Searcher {
 	public static List<Document> search(String keyWord, String indexDirPath)
 			throws ParseException, IOException {
 
-		String[] fields = { "name", "content" };
+		String[] fields = { "title", "content","id" };
 		// 创建一个分词器,和创建索引时用的分词器要一致
 		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
 		// 创建查询解析器
@@ -82,15 +82,15 @@ public class Searcher {
 	 */
 	public static void main(String[] args) throws ParseException, IOException {
 		 //搜索关键词
-        String keyWord = "1";
+        String keyWord = "lucene";
         //索引目录路径
-        String indexDirPath = "./luceneDir";
+        String indexDirPath = "c:\\index";
         Searcher searcher = new Searcher();
         //调用搜索器进行搜索
         List<Document> docs = searcher.search(keyWord, indexDirPath);
         for(Document doc : docs) {
-            System.out.println("文件名 ： "+doc.get("name"));
-            System.out.println("路径 ： "+doc.get("path"));
+            System.out.println("文件名 ： "+doc.get("title"));
+          //  System.out.println("路径 ： "+doc.get("path"));
             System.out.println("内容 ： "+doc.get("content"));
         }
 

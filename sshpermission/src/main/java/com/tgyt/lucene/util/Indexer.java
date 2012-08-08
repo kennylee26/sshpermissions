@@ -42,7 +42,7 @@ public class Indexer {
 	 */
 	public static void createIndex(List<Document> documentList) throws IOException {
 		// 在当前路径下创建一个叫indexDir的目录
-		File indexDir = new File("./luceneDir");
+		File indexDir = new File("c:\\index");
 		// 创建索引目录
 		Directory directory = FSDirectory.open(indexDir);
 		// 创建一个分词器

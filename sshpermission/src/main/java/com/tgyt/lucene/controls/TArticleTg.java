@@ -9,6 +9,14 @@
 
 package com.tgyt.lucene.controls;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+
+import org.apache.lucene.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -30,6 +38,15 @@ public class TArticleTg extends BaseTg{
 	@Autowired
 	private ITArticleService articleService;
 	
+	private String keyword;
+	
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	/** 
 	  * @Title: index 
 	  * @Description: 索引进入操作信息页面  
@@ -56,5 +73,19 @@ public class TArticleTg extends BaseTg{
 			outJsonPlainString(response, "{\"error\":true}");
 			
 		}
+	}
+	public void searchIndex(){
+		List<Document> docs=articleService.searchIndex(keyword, "");
+		List list = new ArrayList();
+		for(Document doc : docs) {
+			Map<String, String> strMap = new HashMap<String, String>();
+			strMap.put("title",doc.get("title"));
+			strMap.put("id",doc.get("id"));
+			strMap.put("content",doc.get("content"));
+            list.add(strMap);
+        }
+		String json = JSONArray.fromObject(list).toString();
+		System.out.println(json);
+		outJsonPlainString(response,json);
 	}
 }

@@ -8,4 +8,5 @@
 	<include file="com/tgyt/permissions/permissions.xml"/>
 	<include file="com/tgyt/tgbpm/tgbpm.xml"/>
 	<include file="com/tgyt/flowList/workflow.xml"/>
+	<include file="com/tgyt/lucene/lucene.xml"/>
 </struts>
