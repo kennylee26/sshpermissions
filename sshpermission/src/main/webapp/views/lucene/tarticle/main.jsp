@@ -1,11 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://com.tgyt.com.cn/tag/easyui" prefix="tgEasyui" %>
-<head>
-     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>权限管理系统</title>
-        <jsp:include page="/views/include.jsp"></jsp:include>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>搜索</title>
+	 <style type="text/css">
+		.searchTableTr { background-color : gray;}
+		.divSearchInput{
+			display: none;
+			position: absolute;
+			border-width: 1px;
+			overflow:hidden; 
+			background:none repeat scroll 0 0 #FFFFFF; 
+			border:#c5dadb 1px solid;
+		}
+	</style> 
+    <jsp:include page="/views/include.jsp"></jsp:include>
         <script type="text/javascript">
         	var contextPath = '<%=request.getContextPath()%>';
         	$.parser.onComplete = function(){
@@ -31,37 +43,168 @@
     			}});
         	});
         </script>
-	<script type="text/javascript">
-		function advanceQuery(){
-			
-			showQueryDialog({
-				width:350,
-				height:30,
-				form:'<c:url value="/views/permissions/actions/_query.jsp"/>',
-				callback:function(data){
-					//$('#q').val(data.name);
-					$('#dt-actions').datagrid('loadData', {total:0,rows:[]});
-					$('#dt-actions').datagrid('load',data);
+    <script>
+    	//鼠标停留改变搜索显示的背景颜色
+	  	function changeColor(v,i) {
+	  		if ($("#searchIndex").val() != '') {
+	  			var index = $("#searchIndex").val();
+	  				if (index == 10) {
+	  					index = 1;
+	  				}
+	        	 	 $("#searhTable tr").each(function(i,v) {
+		            	if (i == (index-1)) {
+		            		$(this).removeClass();
+		            	}
+		            })
+	        	 }
+	  		$(v).addClass("searchTableTr");
+	  		$(v).css("cursor","default");
+	  		$("#searchIndex").val(i+1);
+	  		 
+	  	}
+	  	//鼠标离开移除搜索显示的背景颜色
+	  	function moverColor(v) {
+	  		$(v).removeClass();
+	  		$(v).css("cursor","");
+	  		$("#searchIndex").val(0);
+	  	}
+	  	
+	  //点击搜索显示信息
+	  	function searchValue(v) {
+	  		$("#search").val($(v).text());
+	  		$("#searhInput").hide();
+	  		
+	  	}
+	  	
+		$(function(){
+				$("#divWidthAuto").width(533);
+				$("#search").width(530);
+				$("#searhInput").width(533);
+				$("#searhTable").width(533);
+				
+				var disp = true;
+		 		//点击空白处隐藏
+				 $(document).click(function(){
+				  	//点击搜索处显示
+					 $("#divSearchPage").click(function(){ 
+					 	  disp = false;
+					 	  if ($('#searhInput').css('display') == 'block') {
+			       		  	$('#searhInput').show();
+			       		  }
+			  		});
+			  		if (disp) {
+			  			$('#searhInput').hide();
+			  		}
+			  		disp = true;
+				 });
+				 //右键点击搜索处显示
+				 $("#divSearchPage").bind("contextmenu",function(e){  
+				 		$('#searhInput').show();
+		  		});  		
+		  		
+			  	
+			  	 //输入框键盘触发事件
+			  	$("#search").keyup(function(e){
+			        var key =  e.which;
+			         //下键
+			        if(key == 40){
+			        	$('#searhInput').show();
+			        	 var index = $("#searchIndex").val();
+			        	 var maxIndex = $("#maxIndex").val();
+			        	 	if (index == new Number(maxIndex)) {
+				            		index = 0;
+				            	}
+				            if (index == (new Number(maxIndex)+1)) {
+				            		index = 1;
+				            	}	 
+				            $("#searhTable tr").each(function(i,v) {
+				            	if (i == index) {
+				            		$("#search").val($(this).text());
+				            		$(this).addClass("searchTableTr");
+				            	} else {
+				            		$(this).removeClass();
+				            	}		            	
+				            })
+				            index++;
+				            $("#searchIndex").val(index);
+			        }
+			        //上键
+			         if(key == 38){
+			         	$('#searhInput').show();
+			         	var index = $("#searchIndex").val();
+			         	var maxIndex = $("#maxIndex").val();
+			         	if (index == 0) {
+			         		index = (new Number(maxIndex)+1);
+			         	}
+			         	if (index == 1) {
+			         		index = (new Number(maxIndex)+1);
+			         	} 
+			         	index = index - 2;
+			         	$("#searhTable tr").each(function(i,v) {	            	
+			            	if (i == index) {
+			            		$("#search").val($(this).text());
+			            		$(this).addClass("searchTableTr");
+			            	} else {
+			            		$(this).removeClass();
+			            	}
+			            })
+			           
+			           index = index+1;
+			           $("#searchIndex").val(index);
+			            
+			         }
+			         if (key != 40 && key != 38) {
+				         if(this.value != '') {
+				        	 querySearchInfo(this);
+				        	 } else {
+				            	$('#searhTable').empty();
+						  		$('#searhInput').hide();
+					  	}
+			        }
+			        
+		    	});
+		    var keyword
+		    	//搜索框输入
+		   		function querySearchInfo(v) {
+		    		
+		    	    keyword= $("#search").val();
+		    	    var url="/tgOA/lucene/tarticle/searchIndexTArticle.tg";
+					$.ajax({
+						type: "post",
+						dataType:"json",
+						url: url,
+						data: "keyword="+keyword,
+						success: function(json){
+							$("#searhTable").empty();
+							$("#searhInput").hide();
+							 $("#searchIndex").val(0);
+							for (i = 0;i < json.length;i++) {
+								if (i == 10) {
+									break;
+								}
+								$("#searhTable").append("<tr onmousemove='changeColor(this,"+i+")' onmouseout='moverColor(this)' id='searchTr"+i+"'><td onclick='searchValue(this)' name='title'>"+json[i]["title"]+"</td></tr>")
+							 
+							}
+							if (json.length != 0) {
+								var y = ($(v).offset().top+30);
+		                   		var x = ($(v).offset().left-1);
+		                   		$("#searhInput").css("top",y);
+								$("#searhInput").css("left", x);
+								var maxIndex = json.length;
+								if (json.length > 10) {
+									maxIndex = 10;
+								}
+								$("#maxIndex").val(maxIndex);
+								$("#searhInput").show();
+							}
+							
+						}
+						});
+					//alert(1234);
 				}
-			});
-		}
-		function back(){
-			$('#dt-actions').datagrid('loadData', {total:0,rows:[]});
-			$('#dt-actions').datagrid('load',{});
-		}
-		//------------------------------用来格式化显示状态名称
-		var status;
-		$.getJSON("<c:url value='/permissions/actions/outDicJsonByNicknameActions.tg?nickName=status'/>", function(json){
-			status=json;
 		});
-		function statusFormatter(value){
-			for(var i=0; i<status.length; i++){
-				if (status[i].value == value) return status[i].name;
-			}
-			return value;
-		}
-		//---------------------------------------------------------------------
-		
+	 </script>  
+	 <script type="text/javascript">
 		var url;
 		function newItem(){
 			url = '<c:url value="/lucene/tarticle/createIndexTArticle.tg"/>';
@@ -100,72 +243,85 @@
 			});
 			
 		}
+		function searchinfo(){
+			 var keyword1= $("#search").val();
+			 //alert(keyword);
+			  var keyword = encodeURI(encodeURI(keyword1));
+			  var url = '<c:url value="/lucene/tarticle/getItemsTArticle.tg"/>?keyword='+keyword;
+			 $('#serachResult').datagrid({ url:url });   
+
+			 
+	    	    /* //var url="/tgOA/lucene/tarticle/getItemsTArticle.tg";
+				$.ajax({
+					type: "post",
+					dataType:"json",
+					url: url,
+					success: function(json){
+						alert(JSON.stringify(json));
+						$('#serachResult').datagrid({ url:url });
+						
+					}
+					});    */
+		}
 	</script>
-    </head>
-	<body style="margin:0;padding:0;height:100%;overflow:hidden;background:#F2FBFF">
-		<div id="mainlayout" class="easyui-layout" fit="true">
+	  <script>
+		var cardview = $.extend({}, $.fn.datagrid.defaults.view, {
+			renderRow: function(target, fields, frozen, rowIndex, rowData){
+				var cc = [];
+				cc.push('<td colspan=' + fields.length + ' style="padding:10px 5px;border:0;">');
+				if (!frozen){
+					cc.push('<div style="float:left;margin-left:20px;">');
+					for(var i=0; i<fields.length; i++){
+						var copts = $(target).datagrid('getColumnOption', fields[i]);
+						cc.push('<p><span class="c-label">' + copts.title + ':</span> ' + rowData[fields[i]] + '</p>');
+					}
+					cc.push('</div>');
+				}
+				cc.push('</td>');
+				return cc.join('');
+			}
+		});
+		$(function(){
+			$('#serachResult').datagrid({
+				view: cardview
+			});
+		});
+	</script>
+  </head>
+  
+  <body style="margin:0;padding:0;height:100%;overflow:hidden;background:#F2FBFF">
 			<div region="north" border="false">
-				<div class="toolbar">
-					<table cellpadding="0" cellspacing="0" style="width:95%" >
-						<tr>
-							<td>
-								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="action:add" operationName="新增"/>
-								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="action:modify" operationName="修改"/>
-								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="action:delete" operationName="删除"/>
-								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="action:refresh" operationName="刷新"/>
-								<tgEasyui:easyuiButton iconCls="icon-search" method="authorizate()" permission="action:assignResource" operationName="分配资源"/>
-<!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
-<!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
-<!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
-<!-- 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> -->
-<!-- 								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a> -->
-							</td>
-							<td style="text-align:right">
-								<tgEasyui:easyuiButton  method="advanceQuery()" iconCls="icon-search" permission="action:advanceQuery" operationName="高级查询"/>
-<!-- 								<a href="javascript:advanceQuery()" class="easyui-linkbutton" plain="true">高级查询</a> -->
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div region="center" border="false">
-				<table id="dt-actions" class="easyui-datagrid"
-						url="<c:url value='/permissions/actions/getItemsActions.tg'/>"
-						fit="true" border="false" 
-						pagination="true"
-						singleSelect="true" rownumbers="true" fit="true">
+  	<div id="divSearchPage">
+  	
+	   	<div id="divWidthAuto" style="border:#c5dadb 1px solid;border-width: 1px;height:30px;float: left;">
+	   		<input type="text" name="search" id="search" style="border: 0px;height:30px;font-size: 16px;line-height: 30px;color: #000000;">
+	   	</div>
+	   	&nbsp;<input type="button" onclick="searchinfo();" value="搜索" style="height:30;width:100">
+	   	
+	   	<input type="hidden" name="searchIndex" id="searchIndex" value="0">
+	   	<input type="hidden" name="maxIndex" id="maxIndex" value="0">
+	   	<div id="searhInput" class="divSearchInput" >
+	   		 <table id="searhTable">
+	   		 	<tbody>
+	   		 	<tr>
+	   		 	<th field="title" width="100" sortable="true"></th>
+	   		 	</tr>
+	   		 	</tbody>
+	   		 </table>
+	   	</div>
+   	 </div> 
+   	 </div>
+   <div region="center" border="false" style="height:95%;width:100%" display="none">
+				<table id="serachResult"  title="搜索结果" singleSelect="true" fitColumns="true" class="easyui-datagrid"
+				remoteSort="false" pagination="true"   border="false" fit="true" align="left" >
+					
 					<thead>
 						<tr>
-							<th field="name" width="150" sortable="true">操作名称</th>
-							<th field="enname" width="150" sortable="true">英文名称</th>
-							<th field="methodName" width="150" sortable="true">操作方法</th>
-							<th field="icon" width="150" >图标</th>
-							<th field="status" width="150" sortable="true" formatter="statusFormatter">状态</th>
-							<th field="orderid" width="50" sortable="true">排序</th>
-							<th field="memo" width="350">备注</th>
+							<th field="title" width="80" sortable="true">title</th>
+							<th field="content" width="120" sortable="true" >content</th>
 						</tr>
 					</thead>
-				</table>
-			</div>
-		<div id="dlg" class="easyui-dialog" style="width:350px;height:300px;"
-				closed="true" modal="true" buttons="#dlg-buttons">
-			<form id="myform" method="post">
-				<jsp:include page="_form.jsp"></jsp:include>
-			</form>
-			<div id="dlg-buttons" style="text-align:center">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
-			</div>
-		</div>
-		<div id="auth" class="easyui-dialog" style="width:350px;height:250px;"
-				closed="true" modal="true" buttons="#auth-buttons">
-			<form id="authorization" method="post">
-				<ul id="tt"></ul>
-			</form>
-			<div id="auth-buttons" style="text-align:center">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveAuthorizate()">保存</a>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#auth').dialog('close')">关闭</a>
-			</div>
-		</div>
-	</div>
-</body>
+				</table>	
+   	</div>
+  </body>
+</html>

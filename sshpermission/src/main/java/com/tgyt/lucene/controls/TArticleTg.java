@@ -9,6 +9,9 @@
 
 package com.tgyt.lucene.controls;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +19,18 @@ import java.util.Map;
 
 import net.sf.json.JSONArray;
 
+import org.apache.catalina.util.URLEncoder;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.lucene.biz.ITArticleService;
+import com.tgyt.lucene.util.Searcher;
 
 /** 
  * @ClassName: TArticleTg 
@@ -74,6 +82,13 @@ public class TArticleTg extends BaseTg{
 			
 		}
 	}
+	/** 
+	  * @Title: searchIndex 
+	  * @Description:查索引
+	  * @param 
+	  * @return void
+	  * @throws 
+	  */
 	public void searchIndex(){
 		List<Document> docs=articleService.searchIndex(keyword, "");
 		List list = new ArrayList();
@@ -85,7 +100,70 @@ public class TArticleTg extends BaseTg{
             list.add(strMap);
         }
 		String json = JSONArray.fromObject(list).toString();
-		System.out.println(json);
 		outJsonPlainString(response,json);
+	}
+	/** 
+	  * @Title: paginationQuery 
+	  * @Description: 显示结果
+	  * @param 
+	  * @return void
+	  * @throws 
+	  */
+	public void paginationQuery(){
+		List<Document> docs=articleService.paginationQuery(keyword, rows, page, "");
+		List list = new ArrayList();
+		for(Document doc : docs) {
+			Map<String, String> strMap = new HashMap<String, String>();
+			strMap.put("title",doc.get("title"));
+			strMap.put("id",doc.get("id"));
+			strMap.put("content",doc.get("content"));
+            list.add(strMap);
+        }
+		String json = JSONArray.fromObject(list).toString();
+		int totalCount = articleService.getCount(keyword, "");
+		//System.out.println(json);
+		String baseStr = "{\"total\":" + totalCount + ",\"rows\":";
+		baseStr = baseStr + json + "}";
+		outJsonPlainString(response,baseStr);
+	}
+	/** 
+	  * @Title: getItems 
+	  * @Description: 显示结果
+	  * @param 
+	  * @return void
+	  * @throws 
+	  */
+	public void getItems(){
+		List list;
+		String keyword = "";
+		try {
+			keyword = URLDecoder.decode(request.getParameter("keyword"),"utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			list = Searcher.searchHigh(keyword, rows, page, "c:\\index");
+			String json = JSONArray.fromObject(list).toString();
+			int totalCount = articleService.getCount(keyword, "");
+			System.out.println(json);
+			String baseStr = "{\"total\":" + totalCount + ",\"rows\":";
+			baseStr = baseStr + json + "}";
+			outJsonPlainString(response,baseStr);
+		} catch (CorruptIndexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidTokenOffsetsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		
 	}
 }

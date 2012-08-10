@@ -13,10 +13,8 @@ import java.util.List;
 
 import org.apache.lucene.document.Document;
 
-import com.tgyt.common.tools.page.Pagination;
 import com.tgyt.framework.service.ServiceInterface;
 import com.tgyt.lucene.model.TArticle;
-import com.tgyt.permissions.model.Actions;
 
 /** 
  * @ClassName: ITArticleService 
@@ -28,5 +26,6 @@ import com.tgyt.permissions.model.Actions;
 public interface ITArticleService extends ServiceInterface<TArticle>{
 	public void createIndex();
 	public List<Document> searchIndex(String keyword,String indexDirPath);
-
+	public List<Document> paginationQuery(String keyWord,int pageSize,int currentPage, String indexDirPath);
+	public  int getCount(String keyWord, String indexDirPath);
 }

@@ -83,6 +83,59 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 		}
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * <p>Title: paginationQuery</p> 
+	 * <p>Description: </p> 
+	 * @param keyWord
+	 * @param pageSize
+	 * @param currentPage
+	 * @param indexDirPath
+	 * @return 
+	 * @see com.tgyt.lucene.biz.ITArticleService#paginationQuery(java.lang.String, int, int, java.lang.String) 
+	 */
+	
+	@Override
+	public List<Document> paginationQuery(String keyWord, int pageSize,
+			int currentPage, String indexDirPath) {
+		// TODO Auto-generated method stub
+		try {
+			 List<Document> docs = Searcher.paginationQuery(keyWord, pageSize, currentPage, "c:\\index");
+			 return docs;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * <p>Title: getCount</p> 
+	 * <p>Description: </p> 
+	 * @param keyWord
+	 * @param indexDirPath
+	 * @return 
+	 * @see com.tgyt.lucene.biz.ITArticleService#getCount(java.lang.String, java.lang.String) 
+	 */
+	
+	@Override
+	public int getCount(String keyWord, String indexDirPath) {
+		// TODO Auto-generated method stub
+		try {
+		 int totalcount = Searcher.getCount(keyWord, "c:\\index");
+			return totalcount;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	
 	
