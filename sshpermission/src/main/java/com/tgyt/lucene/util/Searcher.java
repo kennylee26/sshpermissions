@@ -46,17 +46,17 @@ import org.apache.lucene.util.Version;
   */
 public class Searcher {
 
-	/**
-	 * 搜索
-	 * 
-	 * @param keyWord
-	 *            搜索的关键词
-	 * @param indexDir
-	 *            索引目录所在路径
-	 * @throws ParseException
-	 * @throws IOException
-	 * @return List<Document>
-	 */
+	/** 
+	  * @Title: search 
+	  * @Description: 搜索 
+	  * @param @param keyWord
+	  * @param @param indexDirPath
+	  * @param @return
+	  * @param @throws ParseException
+	  * @param @throws IOException
+	  * @return List<Document>
+	  * @throws 
+	  */
 	public static List<Document> search(String keyWord, String indexDirPath)
 			throws ParseException, IOException {
 

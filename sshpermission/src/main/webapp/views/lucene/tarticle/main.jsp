@@ -205,44 +205,18 @@
 		});
 	 </script>  
 	 <script type="text/javascript">
-		var url;
-		function newItem(){
-			url = '<c:url value="/lucene/tarticle/createIndexTArticle.tg"/>';
-			$('#myform').form('clear');
-			$.each($('#myform input'),function(i){
-				$(this).removeAttr("readonly");
-			});
-			$("#dlg-buttons a:first-child").show();
-			$('#dlg').dialog('setTitle','新增操作').dialog('open');
-		}
-		
-		var url;
-		
-		
-		function saveItem(){
-			var data = $('#myform').form('submit',{
-				url:url,
-				onSubmit:function(){return $(this).form('validate');},
-				success:function(data){
-					$('#dlg').dialog('close');
-					$('#dt-actions').datagrid('reload');
-					data=eval('('+data+')');
-					if(data.success){
-						$.messager.show(
-							{
-								title:'提示',
-								msg:'操作成功！',
-								showType:'slide'
-							}
-						);
-					}
-					if(data.error){
-						$.messager.alert('提示','操作失败！','error');
-					}
+	 function createIndex(){
+		 //alert(keyword);
+    	    var url="/tgOA/lucene/tarticle/createIndexTArticle.tg";
+			$.ajax({
+				type: "post",
+				dataType:"json",
+				url: url,
+				success: function(json){
+					alert("建立成功");
 				}
-			});
-			
-		}
+				});   
+	 }
 		function searchinfo(){
 			 var keyword1= $("#search").val();
 			 //alert(keyword);
@@ -296,8 +270,10 @@
 	   	<div id="divWidthAuto" style="border:#c5dadb 1px solid;border-width: 1px;height:30px;float: left;">
 	   		<input type="text" name="search" id="search" style="border: 0px;height:30px;font-size: 16px;line-height: 30px;color: #000000;">
 	   	</div>
-	   	&nbsp;<input type="button" onclick="searchinfo();" value="搜索" style="height:30;width:100">
-	   	
+	   	<tr>
+	   		<td style="text-align: left"><input type="button" onclick="searchinfo();" value="搜索" style="height:30;width:100"></td>
+	   	    <td style="text-align: right"><input type="button"  onclick="createIndex();" value="建立索引" style="height:30;width:100"></td>
+	   	</tr>
 	   	<input type="hidden" name="searchIndex" id="searchIndex" value="0">
 	   	<input type="hidden" name="maxIndex" id="maxIndex" value="0">
 	   	<div id="searhInput" class="divSearchInput" >

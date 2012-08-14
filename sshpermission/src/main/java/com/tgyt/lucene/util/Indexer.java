@@ -33,13 +33,15 @@ import org.apache.lucene.util.Version;
   */
 public class Indexer {
 
-	/**
-	 * 建立索引
-	 * 
-	 * @param filePath
-	 *            需要建立索引的文件的存放路径
-	 * @throws IOException
-	 */
+	
+	/** 
+	  * @Title: createIndex 
+	  * @Description: 建立索引
+	  * @param @param documentList
+	  * @param @throws IOException
+	  * @return void
+	  * @throws 
+	  */
 	public static void createIndex(List<Document> documentList) throws IOException {
 		// 在当前路径下创建一个叫indexDir的目录
 		File indexDir = new File("c:\\index");
@@ -66,25 +68,6 @@ public class Indexer {
 		indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 		// 创建索引器
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		/*File fileDir = new File(filePath);
-		for (File file : fileDir.listFiles()) {
-			// Document是Lucene的文档结构，需要索引的对象都要转换为Document
-			Document document = new Document();
-			// 文件名,可查询,分词,存储到索引库记录中
-			document.add(new Field("name", getFileName(file), Store.YES,
-					Index.ANALYZED));
-			// 文件路径,可查询,不分词,存储到索引库记录中
-			document.add(new Field("path", file.getAbsolutePath(), Store.YES,
-					Index.NOT_ANALYZED));
-			// 大文本内容,可查询,不存储,实际上可根据文件路径去找到真正的文本内容
-			// document.add(new Field("content",new FileReader(file)));
-
-			// 小文本内容，可以存储到索引记录库
-			document.add(new Field("content", getFileContent(file), Store.YES,
-					Index.ANALYZED));
-			// 把文档添加到索引库
-			indexWriter.addDocument(document);
-		}*/
 		for(Document document : documentList){
 			// 把文档添加到索引库
 			indexWriter.addDocument(document);
