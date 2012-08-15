@@ -1,0 +1,5 @@
+<project-modules id="moduleCoreId">
+  <wb-module deploy-name="tgTemplateEngine">
+    <wb-resource deploy-path="/" source-path="src/main/java"/>
+  </wb-module>
+</project-modules>
