@@ -1,0 +1,22 @@
+
+<link rel="stylesheet" type="text/css" href="css/check/tree.css">
+
+<script type="text/javascript" src="../../build/yahoo/yahoo.js" ></script>
+<script type="text/javascript" src="../../build/event/event.js"></script>
+<script type="text/javascript" src="../../build/treeview/treeview-debug.js" ></script>
+
+<script>
+    function checkAll() {
+        var topNodes = ${treeName}.getRoot().children;
+        for(var i=0; i<topNodes.length; ++i) {
+            topNodes[i].check();
+        }
+    }
+
+    function uncheckAll() {
+        var topNodes =  ${treeName}.getRoot().children;
+        for(var i=0; i<topNodes.length; ++i) {
+            topNodes[i].uncheck();
+        }
+    }
+</script>
