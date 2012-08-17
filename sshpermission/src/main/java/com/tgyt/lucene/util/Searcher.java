@@ -68,8 +68,10 @@ public class Searcher {
 				fields, analyzer);
 		// 将查询关键词解析成Lucene的Query对象
 		Query query = queryParser.parse(keyWord);
+		File file = new File(indexDirPath);
+		String pathAll = file.getParentFile().getParentFile().toString()+"\\index";
 		// 打开索引目录
-		File indexDir = new File(indexDirPath);
+		File indexDir = new File(pathAll);
 		Directory directory = FSDirectory.open(indexDir);
 		// 获取访问索引的接口,进行搜索
 		IndexReader indexReader = IndexReader.open(directory);
@@ -115,8 +117,10 @@ public class Searcher {
 				fields, analyzer);
 		// 将查询关键词解析成Lucene的Query对象
 		Query query = queryParser.parse(keyWord);
+		File file = new File(indexDirPath);
+		String pathAll = file.getParentFile().getParentFile().toString()+"\\index";
 		// 打开索引目录
-		File indexDir = new File(indexDirPath);
+		File indexDir = new File(pathAll);
 		Directory directory = FSDirectory.open(indexDir);
 		// 获取访问索引的接口,进行搜索
 		IndexReader indexReader = IndexReader.open(directory);
@@ -188,9 +192,10 @@ public class Searcher {
         //(在多个Filed中搜索)
         QueryParser queryParser = new MultiFieldQueryParser(Version.LUCENE_36,fields,analyzer);
         Query query = queryParser.parse(queryKeyWord);
-         
+        File file = new File(indexDirPath);
+		String pathAll = file.getParentFile().getParentFile().toString()+"\\index";
         //获取访问索引的接口,进行搜索
-        File indexDir = new File(indexDirPath);
+        File indexDir = new File(pathAll);
 		Directory directory = FSDirectory.open(indexDir);
 		// 获取访问索引的接口,进行搜索
 		IndexReader indexReader = IndexReader.open(directory);
@@ -268,8 +273,10 @@ public class Searcher {
 					fields, analyzer);
 			// 将查询关键词解析成Lucene的Query对象
 			Query query = queryParser.parse(keyWord);
+			 File file = new File(indexDirPath);
+			String pathAll = file.getParentFile().getParentFile().toString()+"\\index";
 			// 打开索引目录
-			File indexDir = new File(indexDirPath);
+			File indexDir = new File(pathAll);
 			Directory directory = FSDirectory.open(indexDir);
 			// 获取访问索引的接口,进行搜索
 			IndexReader indexReader = IndexReader.open(directory);

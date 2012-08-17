@@ -74,7 +74,8 @@ public class TArticleTg extends BaseTg{
 	  */
 	public void createIndex(){
 		try{
-			articleService.createIndex();
+			String path=request.getSession().getServletContext().getRealPath("/"); 
+			articleService.createIndex(path);
 			outJsonPlainString(response, "{\"success\":true}");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -90,7 +91,8 @@ public class TArticleTg extends BaseTg{
 	  * @throws 
 	  */
 	public void searchIndex(){
-		List<Document> docs=articleService.searchIndex(keyword, "");
+		String path=request.getSession().getServletContext().getRealPath("/");
+		List<Document> docs=articleService.searchIndex(keyword,path);
 		List list = new ArrayList();
 		for(Document doc : docs) {
 			Map<String, String> strMap = new HashMap<String, String>();
@@ -110,7 +112,8 @@ public class TArticleTg extends BaseTg{
 	  * @throws 
 	  */
 	public void paginationQuery(){
-		List<Document> docs=articleService.paginationQuery(keyword, rows, page, "");
+		String path=request.getSession().getServletContext().getRealPath("/");
+		List<Document> docs=articleService.paginationQuery(keyword, rows, page, path);
 		List list = new ArrayList();
 		for(Document doc : docs) {
 			Map<String, String> strMap = new HashMap<String, String>();
@@ -120,7 +123,7 @@ public class TArticleTg extends BaseTg{
             list.add(strMap);
         }
 		String json = JSONArray.fromObject(list).toString();
-		int totalCount = articleService.getCount(keyword, "");
+		int totalCount = articleService.getCount(keyword, path);
 		//System.out.println(json);
 		String baseStr = "{\"total\":" + totalCount + ",\"rows\":";
 		baseStr = baseStr + json + "}";
@@ -134,6 +137,7 @@ public class TArticleTg extends BaseTg{
 	  * @throws 
 	  */
 	public void getItems(){
+		String path=request.getSession().getServletContext().getRealPath("/");
 		List list;
 		String keyword = "";
 		try {
@@ -142,28 +146,12 @@ public class TArticleTg extends BaseTg{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try {
-			list = Searcher.searchHigh(keyword, rows, page, "c:\\index");
+			list = articleService.searchHigh(keyword, rows, page, path);
 			String json = JSONArray.fromObject(list).toString();
-			int totalCount = articleService.getCount(keyword, "");
+			int totalCount = articleService.getCount(keyword, path);
 			System.out.println(json);
 			String baseStr = "{\"total\":" + totalCount + ",\"rows\":";
 			baseStr = baseStr + json + "}";
 			outJsonPlainString(response,baseStr);
-		} catch (CorruptIndexException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidTokenOffsetsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-		
 	}
 }

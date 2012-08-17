@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -42,9 +44,11 @@ public class Indexer {
 	  * @return void
 	  * @throws 
 	  */
-	public static void createIndex(List<Document> documentList) throws IOException {
+	public static void createIndex(List<Document> documentList,String path) throws IOException {
 		// 在当前路径下创建一个叫indexDir的目录
-		File indexDir = new File("c:\\index");
+		File file = new File(path);
+		String pathAll = file.getParentFile().getParentFile().toString()+"\\index";
+		File indexDir = new File(pathAll);
 		// 创建索引目录
 		Directory directory = FSDirectory.open(indexDir);
 		// 创建一个分词器

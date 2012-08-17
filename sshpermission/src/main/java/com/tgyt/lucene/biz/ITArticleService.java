@@ -24,8 +24,9 @@ import com.tgyt.lucene.model.TArticle;
  *  
  */
 public interface ITArticleService extends ServiceInterface<TArticle>{
-	public void createIndex();
+	public void createIndex(String path);
 	public List<Document> searchIndex(String keyword,String indexDirPath);
 	public List<Document> paginationQuery(String keyWord,int pageSize,int currentPage, String indexDirPath);
 	public  int getCount(String keyWord, String indexDirPath);
+	public List searchHigh(String keyWord,int pageSize,int currentPage, String indexDirPath);
 }

@@ -9,6 +9,7 @@
 
 package com.tgyt.lucene.biz;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,9 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.springframework.stereotype.Service;
 
 import com.tgyt.framework.dao.hspring.DAOInterface;
@@ -57,11 +60,11 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 	 */
 	
 	@Override
-	public void createIndex() {
+	public void createIndex(String path) {
 		// TODO Auto-generated method stub
 		List<Document> list = tarticleDao.getDocument();
 		try {
-			Indexer.createIndex(list);
+			Indexer.createIndex(list,path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,7 +75,7 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 	public List<Document> searchIndex(String keyword,String indexDirPath) {
 		// TODO Auto-generated method stub
 		try {
-			 List<Document> docs = Searcher.search(keyword, "c:\\index");
+			 List<Document> docs = Searcher.search(keyword, indexDirPath);
 			 return docs;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -100,7 +103,7 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 			int currentPage, String indexDirPath) {
 		// TODO Auto-generated method stub
 		try {
-			 List<Document> docs = Searcher.paginationQuery(keyWord, pageSize, currentPage, "c:\\index");
+			 List<Document> docs = Searcher.paginationQuery(keyWord, pageSize, currentPage, indexDirPath);
 			 return docs;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -125,7 +128,7 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 	public int getCount(String keyWord, String indexDirPath) {
 		// TODO Auto-generated method stub
 		try {
-		 int totalcount = Searcher.getCount(keyWord, "c:\\index");
+			int totalcount = Searcher.getCount(keyWord, indexDirPath);
 			return totalcount;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -135,6 +138,40 @@ public class TArticleService extends BaseService<TArticle> implements ITArticleS
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * <p>Title: searchHigh</p> 
+	 * <p>Description: </p> 
+	 * @param keyWord
+	 * @param pageSize
+	 * @param currentPage
+	 * @param indexDirPath
+	 * @return 
+	 * @see com.tgyt.lucene.biz.ITArticleService#searchHigh(java.lang.String, int, int, java.lang.String) 
+	 */
+	
+	@Override
+	public List searchHigh(String keyWord, int pageSize, int currentPage,
+			String indexDirPath) {
+		// TODO Auto-generated method stub
+		try {
+			List list = Searcher.searchHigh(keyWord, pageSize, currentPage, indexDirPath);
+			return list;
+		} catch (CorruptIndexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidTokenOffsetsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	
