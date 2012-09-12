@@ -296,21 +296,41 @@
 					actions=actions.substring(0,actions.length-1)+";";
 				}
 			}
-			$.getJSON(url, { roleActions: actions }, function(json){
-				$('#resAct').dialog('close');
-				if(json.success){
-					$.messager.show(
-						{
-							title:'提示',
-							msg:'操作成功！',
-							showType:'slide'
+			$("#saveResActInput").val(actions);
+			 $('#saveResActForm').form('submit',{
+					url:url,
+					onSubmit:function(){return true;},
+					success:function(json){
+						$('#resAct').dialog('close');
+						if(json.success){
+							$.messager.show(
+								{
+									title:'提示',
+									msg:'操作成功！',
+									showType:'slide'
+								}
+							);
 						}
-					);
-				}
-				if(json.error){
-					$.messager.alert('警告','操作失败！','error');
-				}
-			});
+						if(json.error){
+							$.messager.alert('警告','操作失败！','error');
+						}
+					}
+			 });
+// 			$.getJSON(url, { roleActions: actions }, function(json){
+// 				$('#resAct').dialog('close');
+// 				if(json.success){
+// 					$.messager.show(
+// 						{
+// 							title:'提示',
+// 							msg:'操作成功！',
+// 							showType:'slide'
+// 						}
+// 					);
+// 				}
+// 				if(json.error){
+// 					$.messager.alert('警告','操作失败！','error');
+// 				}
+// 			});
 // 			var data = $('#resActForm').form('submit',{
 // 				url:url,
 // 				onSubmit:function(){return true;},
@@ -524,12 +544,12 @@
 								<tgEasyui:easyuiButton iconCls="icon-reload" method="back()" permission="role:refresh" operationName="刷新"/>
 								<tgEasyui:easyuiButton iconCls="icon-search" method="authorizate()" permission="role:assignResource" operationName="分配资源"/>
 								<tgEasyui:easyuiButton iconCls="icon-search" method="resAct()" permission="role:assignAction" operationName="分配操作"/>
-<!-- 								<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> -->
-<!-- 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> -->
-<!-- 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> -->
-<!-- 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> -->
-<!-- 								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a> -->
-<!-- 								<a href="javascript:resAct()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a> -->
+ 							<!-- 	<a href="javascript:newItem()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a> 
+ 								<a href="javascript:editItem()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> 
+ 								<a href="javascript:removeItem()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">删除</a> 
+ 								<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a> 
+ 								<a href="javascript:authorizate()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配资源</a> 
+ 								<a href="javascript:resAct()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a>   -->
 
 
 <!-- 								<a href="javascript:resActions()" class="easyui-linkbutton" iconCls="icon-search" plain="true">分配操作</a> -->
@@ -618,5 +638,8 @@
 				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#detail').dialog('close')">关闭</a>
 			</div>
 		</div>
+		<form id="saveResActForm" method="post">
+			<input type="text" name="roleActions" id="saveResActInput"/>
+		</form>
 	</div>
 </body>

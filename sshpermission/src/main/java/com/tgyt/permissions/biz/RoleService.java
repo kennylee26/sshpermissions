@@ -259,10 +259,10 @@ public List<Map<String,Object>> getAllListTrees(Integer roleId) {
 					auth.setResourceId(Integer.parseInt(resourceId));
 					auth.setRoleId(roleId);
 					auth.setActions(temp);
-					this.roleAuthDao.alter(auth);
+					this.roleAuthDao.save(auth);
 				}else{
 					auth.setActions(temp);
-					this.roleAuthDao.save(auth);
+					this.roleAuthDao.alter(auth);
 				}
 //				this.executeSql("update c_roleauth set actions='"+temp+
 //						"' where roleid="+roleId+" and resourceid="+resourceId);
