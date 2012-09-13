@@ -1,3 +1,0 @@
-0.0.1
-struts2 spring3 hibernate3.5 基础结构封装
-基础使用的工具类
