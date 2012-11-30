@@ -14,7 +14,7 @@ import javax.persistence.Version;
  * TypeFlow entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "type_flow", catalog = "tgpermission")
+@Table(name = "type_flow")
 public class TypeFlow implements java.io.Serializable {
 
 	// Fields

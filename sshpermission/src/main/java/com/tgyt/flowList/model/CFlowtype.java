@@ -18,7 +18,7 @@ import javax.persistence.Table;
   *  
   */
 @Entity
-@Table(name = "c_flowtype", catalog = "tgpermission")
+@Table(name = "c_flowtype")
 public class CFlowtype implements java.io.Serializable {
 
 	// Fields
