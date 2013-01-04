@@ -109,7 +109,7 @@ function sexFormatter(value){
 			if (row){
 				$('#userId').val(row.id);
 				actionUrl = '<c:url value="/user/findUser.tg"/>'; 
-				$('#userform').formid('loadit',row);
+				$('#myform').formid('loadit',row);
 				
 				$('#userform').form('submit', {
 					url:actionUrl,
@@ -134,7 +134,7 @@ function sexFormatter(value){
 					}
 				});
 				
-				$('#dlg').dialog('setTitle', '修改系统资料').dialog('open');
+				$('#dlg').dialog('setTitle', '修改用户资料').dialog('open');
 				$.each($('#myform input'),function(i){
 					$(this).removeAttr("readonly");
 				});
@@ -147,26 +147,30 @@ function sexFormatter(value){
 		function delItem(){
 			var row = $('#t-users').datagrid('getSelected');
 			if(row){
-				$('#userId').val(row.id);
-				actionUrl = '<c:url value="/user/delUser.tg"/>';
-				$('#userform').form('submit', {
-					url:actionUrl,
-					success: function(data){
-						$('#dlg').dialog('close');
-						$('#t-users').datagrid('reload');
-						data=eval('('+data+')');
-						if(data.success){
-							$.messager.show(
-								{
-									title:'提示',
-									msg:'操作成功！',
-									showType:'slide'
+				$.messager.confirm('提示','确定要删除？',function(r){
+					if(r){
+						$('#userId').val(row.id);
+						actionUrl = '<c:url value="/user/delUser.tg"/>';
+						$('#userform').form('submit', {
+							url:actionUrl,
+							success: function(data){
+								$('#dlg').dialog('close');
+								$('#t-users').datagrid('reload');
+								data=eval('('+data+')');
+								if(data.success){
+									$.messager.show(
+										{
+											title:'提示',
+											msg:'操作成功！',
+											showType:'slide'
+										}
+									);
 								}
-							);
-						}
-						if(data.error){
-							$.messager.alert('提示','操作失败！','error');
-						}
+								if(data.error){
+									$.messager.alert('提示','操作失败！','error');
+								}
+							}
+						});
 					}
 				});
 			}else{

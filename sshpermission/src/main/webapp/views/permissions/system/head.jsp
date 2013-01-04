@@ -67,7 +67,7 @@
 			if (row){
 				$('#sysId').val(row.id);
 				actionUrl = '<c:url value="/sys/findMessage.tg"/>';
-				$('#sysform').formid('loadit',row);
+				$('#myform').formid('loadit',row);
 				$('#dlg').dialog('setTitle', '修改系统资料').dialog('open');
 				$.each($('#myform input'),function(i){
 					$(this).removeAttr("readonly");
@@ -82,26 +82,30 @@
 			var t = $('#t-systems');
 			var row = t.datagrid('getSelected');
 			if(row){
-				$('#sysId').val(row.id);
-				actionUrl = '<c:url value="/sys/delMessage.tg"/>';
-				$('#sysform').form('submit', {
-					url:actionUrl,
-					success: function(data){
-						$('#dlg').dialog('close');
-						$('#t-systems').datagrid('reload');
-						data=eval('('+data+')');
-						if(data.success){
-							$.messager.show(
-								{
-									title:'提示',
-									msg:'操作成功！',
-									showType:'slide'
+				$.messager.confirm("提示","确定要删除？",function(flag){
+					if(flag){
+						$('#sysId').val(row.id);
+						actionUrl = '<c:url value="/sys/delMessage.tg"/>';
+						$('#sysform').form('submit', {
+							url:actionUrl,
+							success: function(data){
+								$('#dlg').dialog('close');
+								$('#t-systems').datagrid('reload');
+								data=eval('('+data+')');
+								if(data.success){
+									$.messager.show(
+										{
+											title:'提示',
+											msg:'操作成功！',
+											showType:'slide'
+										}
+									);
 								}
-							);
-						}
-						if(data.error){
-							$.messager.alert('提示','操作失败！','error');
-						}
+								if(data.error){
+									$.messager.alert('提示','操作失败！','error');
+								}
+							}
+						});
 					}
 				});
 			}else{

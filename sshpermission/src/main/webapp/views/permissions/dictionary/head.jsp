@@ -41,7 +41,26 @@
 			}});
 			
 		});
-	
+		var status;
+		var editables;
+		$.getJSON("<c:url value='/permissions/actions/outDicJsonByNicknameActions.tg?nickName=status'/>", function(json){
+			status=json;
+		});
+		$.getJSON("<c:url value='/permissions/actions/outDicJsonByNicknameActions.tg?nickName=icon'/>", function(json){
+			editables=json;
+		});
+		function statusFormatter(value){
+			for(var i=0; i<status.length; i++){
+				if (status[i].value == value) return status[i].name;
+			}
+			return value;
+		}
+		function editableFormatter(value){
+			for(var i=0; i<editables.length; i++){
+				if (editables[i].value == value) return editables[i].name;
+			}
+			return value;
+		}
 	
 		var actionUrl;
 		function newItem(){
@@ -88,7 +107,7 @@
 				$("#dlg-buttons a::first-child").show();
 				$('#dicId').val(row.id);
 				actionUrl = '<c:url value="/dictionary/findDictionary.tg"/>';
-				$('#dicform').formid('loadit',row);
+				$('#myform').formid('loadit',row);
 				$('#dlg').dialog('setTitle', '修改常量信息').dialog('open');
 				actionUrl = '<c:url value="/dictionary/updateDictionary.tg"/>';
 			}else{
@@ -99,30 +118,34 @@
 		function delItem(){
 			var row = $('#t-dictionarys').datagrid('getSelected');
 			if(row){
-				$('#dicId').val(row.id);
-				actionUrl = '<c:url value="/dictionary/delDictionary.tg"/>';
-				$('#dicform').form('submit', {
-					url:actionUrl,
-					success: function(data){
-						$('#dlg').dialog('close');
-						$('#t-dictionarys').datagrid('reload');
-						data=eval('('+data+')');
-						if(data.success){
-							$.messager.show(
-								{
-									title:'提示',
-									msg:'操作成功！',
-									showType:'slide'
+				$.messager.confirm('提示','确定要删除？',function(r){
+					if(r){
+						$('#dicId').val(row.id);
+						actionUrl = '<c:url value="/dictionary/delDictionary.tg"/>';
+						$('#dicform').form('submit', {
+							url:actionUrl,
+							success: function(data){
+								$('#dlg').dialog('close');
+								$('#t-dictionarys').datagrid('reload');
+								data=eval('('+data+')');
+								if(data.success){
+									$.messager.show(
+										{
+											title:'提示',
+											msg:'操作成功！',
+											showType:'slide'
+										}
+									);
 								}
-							);
-						}
-						if(data.error){
-							$.messager.alert('提示','操作失败！','error');
-						}
+								if(data.error){
+									$.messager.alert('提示','操作失败！','error');
+								}
+							}
+						});
 					}
-				});
+				})
 			}else{
-				alert('请选择要删除的常量！谢谢'); 
+				$.messager.alert('提示','请选择要删除的常量！','error');
 			}
 		}
 		

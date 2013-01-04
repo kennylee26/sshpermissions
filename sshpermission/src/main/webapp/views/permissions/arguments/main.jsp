@@ -142,7 +142,7 @@
 				<div class="toolbar">
 					<table cellpadding="0" cellspacing="0" style="width:95%">
 						<tr>
-							<td>
+							<td style="text-align: left;">
 								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="arguments:add" operationName="新增"/>
 								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="arguments:modify" operationName="修改"/>
 								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="arguments:delete" operationName="删除"/>

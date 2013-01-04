@@ -5,22 +5,29 @@
 <head>
 	 <jsp:include page="head.jsp"></jsp:include>
 </head>
-<body style= "margin:0px;">
+<body style="margin:0;padding:0;height:100%;overflow:hidden;background:#F2FBFF">
 	<form id="sysform" method="post">
 		<input type="hidden" id="sysId" name="id" value=""/>
 	</form>
-	<div class="easyui-layout" fit="true">
+	<div id="mainlayout" class="easyui-layout" fit="true">
 		<div region="north" border="false">
-			<div class="subtitle">系统信息</div>
 			<div class="toolbar">
+				<table cellpadding="0" cellspacing="0" style="width:95%;" fit="true">
+					<tr>
+						<td style="text-align:left">
 				<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="system:add" operationName="新增"/>
 				<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="system:modify" operationName="修改"/>
 				<tgEasyui:easyuiButton iconCls="icon-cancel" method="delItem()" permission="system:delete" operationName="删除"/>
-				<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="system:query" operationName="查询常量"/>
-<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增系统</a> -->
+				<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增系统</a> -->
 <!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改系统</a> -->
 <!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除系统</a> -->
 <!-- 				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询系统</a> -->
+						</td>
+					<td style="text-align:right">
+						<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="system:query" operationName="高级查询"/>
+					</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		
@@ -45,44 +52,43 @@
 				</thead>
 			</table>
 		</div>
-	</div>
+
 	
-	<div id="dlg" style="width:600px;height:400px;"
+	<div id="dlg" style="width:350px;height:350px;"
 			class="easyui-dialog" closed="true" modal="true" buttons="#dlg-buttons">
-		<div style="padding-left:150px;padding-top:40px;">
-			<div style="float:center">
+			<div style="padding:20px">
 				<form id="myform" method="post" style="margin:0;padding:0">
 					<table>
 						<tr>
-							<td style="width:80px">系统名称</td>
+							<td >系统名称：</td>
 							<td><input type="text" id="name" class="easyui-validatebox e-input" name="system.name" required="true"></input></td>
 						</tr>
 						<tr>
-							<td>系统英文名称</td>
+							<td>系统英文名称：</td>
 							<td>
 								<input type="text" id="ename" class="e-input" name="system.ename" >
 							</td>
 						</tr>
 						<tr>
-							<td>上下文</td>
+							<td>上下文：</td>
 							<td>
 								<input type="text" id="contextPath" class="e-input" name="system.contextPath" >
 							</td>
 						</tr>
 						<tr>
-							<td>表名前缀</td>
+							<td>表名前缀：</td>
 							<td><input type="text" id="tablePrefix" class="e-input" name="system.tablePrefix"></input></td>
 						</tr>
 						<tr>
-							<td>系统标志</td>
+							<td>系统标志：</td>
 							<td><input type="text" id="logo" class="e-input" name="system.logo"></input></td>
 						</tr>
 						<tr>
-							<td>排序</td>
+							<td>排序：</td>
 							<td><input type="text" id="order" class="e-input" name="system.order"></input></td>
 						</tr>
 						<tr>
-							<td>状态</td>
+							<td>状态：</td>
 							<td>
 								<input id="status" class="easyui-combobox"  name="system.status" style="width:200px" 
 									required="true" readonly="true" 
@@ -97,13 +103,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td>版本</td>
+							<td>版本：</td>
 							<td>
 								<input type="text" id="version" class="e-input" name="system.version"></input>
 							</td>
 						</tr>
 						<tr>
-							<td>备注</td>
+							<td>备注：</td>
 							<td><input type="text" id="memo" class="e-input" name="system.memo"></input></td>
 						</tr>
 						<tr>
@@ -114,13 +120,11 @@
 						</tr>
 					</table>
 				</form>
-			</div>
-			<div style="clear:both"></div>
 		</div>
 		<div id="dlg-buttons" style="text-align:center;">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
 		</div>
 	</div>
-	
+	</div>
 </body>

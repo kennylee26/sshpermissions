@@ -300,9 +300,9 @@
   			<div id="mainlayout" class="easyui-layout" fit="true">
 			<div region="north" border="false" >
 				<div class="toolbar">
-					<table cellpadding="0" cellspacing="0" style="width:95%;height:50px;" fit="true">
+					<table cellpadding="0" cellspacing="0" style="width:95%;" fit="true">
 						<tr>
-							<td>
+							<td style="text-align:left"> 
 								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="resource:add" operationName="新增"/>
 								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="resource:modify" operationName="修改"/>
 								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="resource:delete" operationName="删除"/>

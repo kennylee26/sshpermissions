@@ -5,7 +5,7 @@
 <head>
   <jsp:include page="head.jsp"></jsp:include>
 </head>
-<body style= "margin:0px;">
+<body style="margin: 0; padding: 0; height: 100%; overflow: hidden; background: #F2FBFF">
 	<form method="post" id="logform" >
 		<input type="hidden" name="id" id="logid" value="1"/>
 	</form>
@@ -13,11 +13,10 @@
 		<div region="north" border="false" class="toolbar">
 				<table style="width:100%">
 					<tr>
-						<td style="text-align:center">
-							&nbsp;&nbsp;日志信息列表&nbsp;&nbsp;
+						<td style="text-align: left">
+							<tgEasyui:easyuiButton iconCls="icon-search" method="lookLog()" permission="log:detail" operationName="查看"/>
 						</td>
 						<td style="text-align:right">
-							<tgEasyui:easyuiButton iconCls="icon-search" method="lookLog()" permission="log:detail" operationName="查看"/>
 							<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="log:advanceQuery" operationName="高级查询"/>
 				
 <!-- 							<a href="javascript:lookLog()" class="easyui-linkbutton" plain="true">查看日志</a> -->
@@ -48,9 +47,9 @@
 		</div>
 		
 	</div>
-	<div id="dlg" class="easyui-dialog" style="width:500px;height:350px;"closed="true" modal="true" buttons="#dlg-buttons">
-		<div style="padding-left:150px;padding-top:40px;">
-			<div style="float:center">
+	<div id="dlg" class="easyui-dialog" style="width:350px;height:300px;" closed="true"
+		 modal="true" buttons="#dlg-buttons">
+		 <div style="padding:20px">
 				<form id="myform" method="post" style="margin:0;padding:0">
 					<table>
 						<tr>
@@ -91,7 +90,6 @@
 					</table>
 				</form>
 			</div>
-			<div style="clear:both"></div>
 		</div>
 		<div id="dlg-buttons" style="text-align:center;">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>

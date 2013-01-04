@@ -474,9 +474,10 @@
 		function removeItem(){
 			var row = $('#dt-role').datagrid('getSelected');
 			if (row){
-				if(confirm('确定要删除？')){
-					url = '<c:url value="/permissions/role/deleteRole.tg"/>?id='+row["id"];
-					 $('#myform').form('submit',{
+				$.messager.confirm('提示','确定要删除？',function(r){
+					if(r){
+						url = '<c:url value="/permissions/role/deleteRole.tg"/>?id='+row["id"];
+						 $('#myform').form('submit',{
 							url:url,
 							onSubmit:function(){return true;},
 							success:function(data){
@@ -496,7 +497,8 @@
 								}
 							}
 						});
-				}
+					}
+				});
 			} else {
 				$.messager.show({
 					title:'注意',
@@ -535,9 +537,9 @@
   			<div id="mainlayout" class="easyui-layout" fit="true">
 			<div region="north" border="false">
 				<div class="toolbar">
-					<table cellpadding="0" cellspacing="0" style="width:95%;height=30px;">
+					<table cellpadding="0" cellspacing="0" style="width:95%;">
 						<tr>
-							<td>
+							<td style="text-align:left">
 								<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="role:add" operationName="新增"/>
 								<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="role:modify" operationName="修改"/>
 								<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeItem()" permission="role:delete" operationName="删除"/>

@@ -28,6 +28,11 @@
 			<td>备注：</td>
 			<td><textarea id="memo" name="role.memo" class="e-input" style="height:200px;width:200px"></textarea></td>
 		</tr>
-		
+		<tr>
+			<td>登陆角色：</td>
+			<td><input id="loginRole" class="easyui-combobox" name="role.loginRole" style="width:200px" required="true" readonly="true"
+					url="<c:url value='/permissions/role/outDicJsonByNicknameRole.tg?nickName=callCenterUser'/>"
+					valueField="value" textField="name"></input></td>
+		</tr>
 	</table>
 </div>

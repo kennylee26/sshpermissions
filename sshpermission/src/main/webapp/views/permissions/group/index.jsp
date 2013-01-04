@@ -13,9 +13,9 @@
 	<div id="mainlayout" class="easyui-layout" fit="true">
 		<div region="north" border="false" >
 			<div class="toolbar">
-				<table cellpadding="0" cellspacing="0" style="width:95%;height:50px;" fit="true">
+				<table cellpadding="0" cellspacing="0" style="width:95%;" fit="true">
 					<tr>
-						<td>
+						<td style="text-align: left;">
 							<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="group:add" operationName="新增"/>
 							<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="group:modify" operationName="修改"/>
 							<tgEasyui:easyuiButton iconCls="icon-cancel" method="delItem()" permission="group:delete" operationName="删除"/>
@@ -26,16 +26,16 @@
 							<tgEasyui:easyuiButton iconCls="icon-search" method="lookGroupHaveRole()" permission="group:detailGroupRole" operationName="查看组拥有的角色"/>
 							<tgEasyui:easyuiButton iconCls="icon-cancel" method="removeGroupHaveRole()" permission="group:removeGroupRole" operationName="移除组拥有的角色"/>
 				
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增组</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改组</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delItem()">删除组</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookItem()">查看组信息</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUserItem()">添加用户</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delUserItem()">删除组内用户</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="groupToRole()">组授权角色</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookGroupHaveRole()">查看组拥有的角色</a> -->
-<!-- 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="removeGroupHaveRole()">移除组拥有的角色</a> -->
-
+ 							<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增组</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改组</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delItem()">删除组</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookItem()">查看组信息</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUserItem()">添加用户</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delUserItem()">删除组内用户</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="groupToRole()">组授权角色</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="lookGroupHaveRole()">查看组拥有的角色</a> 
+ 							<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="removeGroupHaveRole()">移除组拥有的角色</a> 
+ -->
 						</td>
 					</tr>
 				</table>
@@ -121,109 +121,108 @@
 				<!-- ==== -->
 				
 				
-				<div id="dlg" class="easyui-dialog" style="width:350px;height:430px;"
+				<div id="dlg" class="easyui-dialog" style="width:350px;height:300px;"
 						closed="true" modal="true" buttons="#dlg-buttons">
-					<form id="myform" method="post">
-						<table>
-						<tr>
-							<td style="width:80px">组名称</td>
-							<td><input type="text" id="name" class="easyui-validatebox e-input" name="group.name" required="true"></input></td>
-						</tr>
-						<tr>
-							<td>组英文名称</td>
-							<td>
-								<input type="text" id="enName" class="e-input" name="group.enName" >
-							</td>
-						</tr>
-						<tr>
-							<td>组类别</td>
-							<td>
-								<input type="text" id="groupType" class="e-input" name="group.groupType" >
-							</td>
-						</tr>
-						
-						<tr>
-							<td>所属组</td>
-							<td>
-								<input id="parentId" name="group.parentId" class="easyui-combotree" style="width:200px" ></input>
-							</td>
-						</tr>
-						
-						<tr>
-							<td>状态</td>
-							<td>
-							<input id="status" class="easyui-combobox"  name="group.status" style="width:200px" 
-									required="true" readonly="true" 
-									url="<c:url value='/permissions/actions/outDicJsonByNicknameActions.tg?nickName=status'/>"
-									valueField="value" textField="name">
-							</td>
-						</tr>
-						
-						<tr>
-							<td>排序</td>
-							<td><input type="text" id="orderId" class="e-input" name="group.orderId"></input></td>
-						</tr>
-						<tr>
-							<td>备注</td>
-							<td><input type="text" id="memo" class="e-input" name="group.memo"></input></td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td>
-								<input type="hidden" id="myhomeid" name="group.id" value="1">
-							</td>
-						</tr>
-					</table>
-					</form>
+					<div style="padding: 20px;">
+						<form id="myform" method="post">
+							<table>
+								<tr>
+									<td style="width:80px">组名称</td>
+									<td><input type="text" id="name" class="easyui-validatebox e-input" name="group.name" required="true" style="width:200px"></input></td>
+								</tr>
+								<tr>
+									<td>组英文名称</td>
+									<td>
+										<input type="text" id="enName" class="e-input" name="group.enName" style="width:200px">
+									</td>
+								</tr>
+								<tr>
+									<td>组类别</td>
+									<td>
+										<input type="text" id="groupType" class="e-input" name="group.groupType" style="width:200px">
+									</td>
+								</tr>
+								
+								<tr>
+									<td>所属组</td>
+									<td>
+										<input id="parentId" name="group.parentId" class="easyui-combotree" style="width:200px" ></input>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>状态</td>
+									<td>
+									<input id="status" class="easyui-combobox"  name="group.status" style="width:200px" 
+											required="true" readonly="true" 
+											url="<c:url value='/permissions/actions/outDicJsonByNicknameActions.tg?nickName=status'/>"
+											valueField="value" textField="name">
+									</td>
+								</tr>
+								
+								<tr>
+									<td>排序</td>
+									<td><input type="text" id="orderId" class="e-input" name="group.orderId" style="width:200px"></input></td>
+								</tr>
+								<tr>
+									<td>备注</td>
+									<td><input type="text" id="memo" class="e-input" name="group.memo" style="width:200px"></input></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>
+										<input type="hidden" id="myhomeid" name="group.id" value="1">
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
 					<div id="dlg-buttons" style="text-align:center">
 						<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
 					</div>
 				</div>
 				
-				<div id="look" style="width:600px;height:400px;"
+				<div id="look" style="width:350px;height:350px;"
 			class="easyui-dialog" closed="true" modal="true" buttons="#dlg-buttons">
-		<div style="padding-left:150px;padding-top:40px;">
-			<div style="float:center">
+		<div style="padding:20px;">
 				<form id="myform" method="post" style="margin:0;padding:0">
 					<table>
 						<tr>
-							<td style="width:80px">组名称</td>
+							<td>组名称：</td>
 							<td><input readonly type="text" id="lname" class="easyui-validatebox e-input" name="group.name" required="true"></input></td>
 						</tr>
 						<tr>
-							<td>组英文名称</td>
+							<td>组英文名称：</td>
 							<td>
 								<input readonly type="text" id="lenname" class="e-input" name="group.enName" >
 							</td>
 						</tr>
 						<tr>
-							<td>组类别</td>
+							<td>组类别：</td>
 							<td>
 								<input readonly type="text" id="lgrouptype" class="e-input" name="group.groupType" >
 							</td>
 						</tr>
 						
 						<tr>
-							<td>状态</td>
+							<td>状态：</td>
 							<td>
 							<input readonly type="text" id="lstatus" class="e-input" name="group.parentId" >
 							</td>
 						</tr>
 						
 						<tr>
-							<td>排序</td>
+							<td>排序：</td>
 							<td><input readonly type="text" id="lorderid" class="e-input" name="group.orderId"></input></td>
 						</tr>
 						<tr>
-							<td>备注</td>
+							<td>备注：</td>
 							<td><input readonly type="text" id="lmemo" class="e-input" name="group.memo"></input></td>
 						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="clear:both"></div>
-		</div>
 		<div id="dlg-buttons" style="text-align:center;">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#look').dialog('close')">关闭</a>
 		</div>
@@ -233,7 +232,7 @@
 	<input type="hidden" id="gsid" name="groupid" value=""/>
 	</form>
 	 <div id="dlgwindow" class="easyui-dialog" resizable="true"
-			maximizable="true" style="width: 640px; height: 380px;" closed="true"
+			maximizable="true" style="width: 340px; height: 380px;" closed="true"
 			modal="true" buttons="#dlg-button">
 			<table id="dt-group" class="easyui-datagrid" fit="true"
 				border="false" pagination="true" 

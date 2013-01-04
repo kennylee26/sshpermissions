@@ -201,30 +201,32 @@
 				}else{
 					url = '<c:url value="/group/delGroup.tg"/>?id=' + id;
 				}
-				if(confirm('确定要删除？')){
-					$('#myform').form('submit', {
-						url:url,
-						onSubmit: function(){
-							return true;
-						},
-						success: function(data){
-							data=eval('('+data+')');
-							if(data.success){
-								$.messager.show(
-									{
-										title:'提示',
-										msg:'操作成功！',
-										showType:'slide'
-									}
-								);
-								loadAllTrees();
+				$.messager.confirm('提示','确定要删除？',function(r){
+					if(r){
+						$('#myform').form('submit', {
+							url:url,
+							onSubmit: function(){
+								return true;
+							},
+							success: function(data){
+								data=eval('('+data+')');
+								if(data.success){
+									$.messager.show(
+										{
+											title:'提示',
+											msg:'操作成功！',
+											showType:'slide'
+										}
+									);
+									loadAllTrees();
+								}
+								if(data.error){
+									$.messager.alert('提示','操作失败！','error');
+								}
 							}
-							if(data.error){
-								$.messager.alert('提示','操作失败！','error');
-							}
-						}
-					});
-				}
+						});
+					}
+				});
 			}else{
 				$.messager.alert('提示','请选择要删除的组','info');
 			}
@@ -396,38 +398,40 @@
 				var row = $('#dt-resources').datagrid('getSelections');
 				if(row.length != 0){
 					$('#groupid').val(id);
-					if(confirm('确实要删除这些用户吗？')){
-						var temp = '';
-						for(var i=0;i<row.length;i++){
-							temp = temp + row[i].id + ',';
-						}
-						$('#id').val(temp);
-						url = '<c:url value="/group/delUserFromGroup.tg"/>'; 
-						$('#groupForm').form('submit', {
-							url:url,
-							onSubmit: function(){
-								return true;
-							},
-							success: function(data){
-								url = '<c:url value="/user/getItemsUser.tg"/>?id=' + $('#groupid').val();
-								$('#dt-resources').datagrid('options').url = url;
-								$('#dt-resources').datagrid("reload");
-								data=eval('('+data+')');
-								if(data.success){
-									$.messager.show(
-											{
-												title:'提示',
-												msg:'操作成功！',
-												showType:'slide'
-											}
-									);
-								}
-								if(data.error){
-									$.messager.alert('提示','操作失败！','error');
-								}
+					$.messager.confirm('提示','确定要删除？',function(r){
+						if(r){
+							var temp = '';
+							for(var i=0;i<row.length;i++){
+								temp = temp + row[i].id + ',';
 							}
-						});
-					}
+							$('#id').val(temp);
+							url = '<c:url value="/group/delUserFromGroup.tg"/>'; 
+							$('#groupForm').form('submit', {
+								url:url,
+								onSubmit: function(){
+									return true;
+								},
+								success: function(data){
+									url = '<c:url value="/user/getItemsUser.tg"/>?id=' + $('#groupid').val();
+									$('#dt-resources').datagrid('options').url = url;
+									$('#dt-resources').datagrid("reload");
+									data=eval('('+data+')');
+									if(data.success){
+										$.messager.show(
+												{
+													title:'提示',
+													msg:'操作成功！',
+													showType:'slide'
+												}
+										);
+									}
+									if(data.error){
+										$.messager.alert('提示','操作失败！','error');
+									}
+								}
+							});
+						}
+					});
 				}else{
 					$.messager.alert('提示','请选择组内成员','info');
 				}

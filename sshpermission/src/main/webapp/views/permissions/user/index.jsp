@@ -12,21 +12,29 @@
 	<div class="easyui-layout" fit="true">
 		<div region="north" border="false">
 			<div class="toolbar">
+				<table cellpadding="0" cellspacing="0" style="width:95%;" fit="true">
+							<tr>
+								<td style="text-align:left">
 				<tgEasyui:easyuiButton iconCls="icon-add" method="newItem()" permission="users:add" operationName="新增"/>
 				<tgEasyui:easyuiButton iconCls="icon-edit" method="editItem()" permission="users:modify" operationName="修改"/>
 				<tgEasyui:easyuiButton iconCls="icon-cancel" method="delItem()" permission="users:delete" operationName="删除"/>
-				<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="users:query" operationName="查询常量"/>
-<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增用户</a> -->
-<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改用户</a> -->
-<!-- 				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除用户</a> -->
-<!-- 				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询用户</a> -->
+ 				<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增用户</a> 
+ 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">修改用户</a> 
+ 				<a href="#" class="easyui-linkbutton" iconCls="icon-delete" plain="true" onclick="delItem()">删除用户</a> 
+ 				<a href="javascript:advanceQuery()" class="easyui-linkbutton"plain="true">查询用户</a>  -->
+								</td>
+								<td style="text-align:right;">
+				<tgEasyui:easyuiButton iconCls="icon-search" method="advanceQuery()" permission="users:query" operationName="高级查询"/>
+								</td>
+							</tr>
+					</table>
 			</div>
 		</div>
 		
 		<div region="center" border="false">
 			<table id="t-users" class="easyui-datagrid"
 					url="<c:url value='/user/getPageUser.tg'/>"
-					singleSelect="true" pagination="true"
+					singleSelect="true" pagination="true"  rownumbers="true"
 					border="false" fit="true">
 				<thead>
 					<tr>
@@ -48,16 +56,11 @@
 		</div>
 	</div>
 	
-	<div id="dlg" style="width:600px;height:500px;"
+	<div id="dlg" style="width:650px;height:420px;"
 			class="easyui-dialog" closed="true" modal="true" buttons="#dlg-buttons">
-		<div style="padding-left:150px;padding-top:40px;">
-			<div style="float:center">
-				<form id="myform" method="post" style="margin:0;padding:0">
-					<jsp:include page="form.jsp"></jsp:include>
-				</form>
-			</div>
-			<div style="clear:both"></div>
-		</div>
+		<form id="myform" method="post" >
+			<jsp:include page="form.jsp"></jsp:include>
+		</form>
 		<div id="dlg-buttons" style="text-align:center;">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="saveItem()">保存</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>

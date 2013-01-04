@@ -37,7 +37,7 @@
 			if(row){
 				actionUrl = '<c:url value="/log/lookLog.tg"/>';
 				$('#logid').val(row.id);
-				$('#logform').formid('loadit',row);
+				$('#myform').formid('loadit',row);
 				$('#dlg').dialog('setTitle', '查看日志信息').dialog('open');
 			}else{
 				alert('请选择要查看的具体日志');

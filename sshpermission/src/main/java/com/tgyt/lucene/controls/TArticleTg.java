@@ -9,7 +9,6 @@
 
 package com.tgyt.lucene.controls;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -19,18 +18,13 @@ import java.util.Map;
 
 import net.sf.json.JSONArray;
 
-import org.apache.catalina.util.URLEncoder;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.tgyt.framework.controls.struts2.BaseTg;
 import com.tgyt.lucene.biz.ITArticleService;
-import com.tgyt.lucene.util.Searcher;
 
 /** 
  * @ClassName: TArticleTg 
