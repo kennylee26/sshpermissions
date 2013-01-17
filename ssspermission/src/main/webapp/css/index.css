@@ -1,0 +1,8 @@
+#nav ul{list-style-type:none;margin:0px; padding:10px;}
+#nav ul li{ padding:0px;}
+#nav ul li a{line-height:24px;}
+#nav ul li div{margin:2px 0px;padding-left:10px;padding-top:2px;}
+#nav ul li div.hover{border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;}
+#nav ul li div.hover a{color:#416AA3;}
+#nav ul li div.selected{border:1px solid #99BBE8; background:#E0ECFF;cursor:default;}
+#nav ul li div.selected a{color:#416AA3; font-weight:bold;}

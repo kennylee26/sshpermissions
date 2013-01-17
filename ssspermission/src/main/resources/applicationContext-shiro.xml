@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+					http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+					http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+					http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">	
+<!-- Shiro Filter -->  
+<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
+    <property name="securityManager" ref="securityManager" />  
+    <property name="loginUrl" value="/login.jsp" />  
+    <property name="successUrl" value="/views/main.jsp" />  
+    <property name="unauthorizedUrl" value="/login.jsp" />  
+    <property name="filters">
+      <util:map>
+                <entry key="authc">
+                    <bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter"/>
+                </entry>
+       </util:map>
+     </property>
+    <property name="filterChainDefinitions">  
+        <value>  
+        	/intelligentterminal/*/* = anon
+            /login.jsp = anon  
+            /404.htm = anon  
+            /500.htm = anon  
+            /*Login.tg = anon 
+            /images/* = anon
+            /images/WindowsAeroStyle/* = anon
+            /images/WindowsAeroStyle/active/* = anon
+            /images/WindowsAeroStyle/hover/* = anon
+            /images/WindowsAeroStyle/inactive/* = anon
+            /tg/commons/easyui/themes/* = anon
+            /tg/commons/easyui/themes/default/* = anon
+            /tg/commons/easyui/* = anon
+            /tg/commons/easyui/locale/* anon
+            /css/* = anon
+            /img/* = anon
+            /css/images/* = anon
+            /js/**/*.js = anon
+            /** = authc 
+        </value>  
+    </property>  
+</bean>
+<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+    <property name="realm" ref="tgPermissionsRealm" />  
+</bean> 
+<bean id=" tgPermissionsRealm" class="com.tgyt.Realm.TgPermissionsRealm" /> 
+</beans>

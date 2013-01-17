@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- 全局参数管理 -->
+	<package name="arguments.manage" namespace="/permissions/arguments" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Arguments" method="{1}" class="permissions.argumentsControl">
+			<result name="success">/views/permissions/arguments/main.jsp</result>
+		</action>
+	</package>
+<!-- 全局参数管理 -->
+	<package name="login" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Login"  method="{1}" class="loginTgControl">
+		<result name="success">/index.jsp</result>
+		<result name="error">/login.jsp</result>
+		</action>
+	</package>
+<!-- 全局参数管理 -->
+	<package name="resources.manage" namespace="/permissions/resources" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Resources" method="{1}" class="permissions.resourcesTgControl">
+			<result name="success">/views/permissions/resources/main.jsp</result>
+		</action>
+	</package>
+<!-- 全局参数管理 -->
+	<package name="role" namespace="/permissions/role" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Role" method="{1}" class="roleTgControl">
+			<result name="success">/views/permissions/role/main.jsp</result>
+		</action>
+	</package>
+<!-- 全局参数管理 -->
+	<package name="actions.manage" namespace="/permissions/actions" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Actions" method="{1}" class="permissions.actionsTgControl">
+			<result name="success">/views/permissions/actions/main.jsp</result>
+		</action>
+	</package>
+	<!-- 系统信息 -->
+	<package name="sys.manager" namespace="/sys" extends="struts-default">
+		<action name="*Message" method="{1}" class="sys.MessageControl">
+			<result name="success">/views/permissions/system/index.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 日志信息 -->
+	<package name="log" namespace="/log" extends="struts-default">
+		<action name="*Log" method="{1}" class="logControl">
+			<result>/views/permissions/log/index.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 系统字典 -->
+	<package name="dictionary" namespace="/dictionary" extends="struts-default">
+		<action name="*Dictionary" method="{1}" class="dictionaryControl">
+			<result>/views/permissions/dictionary/index.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 组管理信息 -->
+	<package name="group" namespace="/group" extends="struts-default">
+		<action name="*Group" method="{1}" class="groupControl">
+			<result>/views/permissions/group/index.jsp</result>
+		</action>
+		<action name="groupHaveRole" method="groupHaveRole" class="groupControl">
+			<result>/views/permissions/group/left.jsp</result>
+		</action>
+		<action name="removeGroupHaveRole" method="removeGroupHaveRole" class="groupControl">
+			<result>/views/permissions/group/left.jsp</result>
+		</action>
+	</package>
+	
+	<package name="user" namespace="/user" extends="struts-default">
+		<action name="*User" method="{1}" class="userControl">
+			<result>/views/permissions/user/index.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 临时方法，用于得到非url弹出捍的链接 -->
+	<package name="actions.checkurl" namespace="/actions" extends="struts-default">
+		<!--用户管理-->
+		<action name="*Checkurl" method="{1}" class="permissions.checkurlTgControl">
+			<result name="success">/views/checkurl.jsp</result>
+		</action>
+	</package>
+</struts>

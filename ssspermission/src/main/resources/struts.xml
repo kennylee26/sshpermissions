@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- permissions manager -->
+	<include file="com/tgyt/permissions/permissions.xml"/>
+	<include file="com/tgyt/tgbpm/tgbpm.xml"/>
+	<include file="com/tgyt/flowList/workflow.xml"/>
+	<include file="com/tgyt/lucene/lucene.xml"/>
+</struts>
